@@ -1,0 +1,2 @@
+# Minimal requirements for AI service
+# Add dependencies here as needed.
