@@ -38,7 +38,7 @@ None yet - MVP development starting
 None
 
 ### Ready for Review 📋
-None
+- F01-T01: Define User aggregate (Backend-Domain-Agent) - Branch: feature/F01-T01-user-aggregate
 
 ### Blocked ⛔
 None
