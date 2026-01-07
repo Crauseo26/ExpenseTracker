@@ -1,3 +1,5 @@
+using Expenses.Domain.Exceptions;
+
 namespace Expenses.Domain.Aggregates.User;
 
 public class User
@@ -17,13 +19,13 @@ public class User
     public User(Guid id, string email, string passwordHash)
     {
         if (id == Guid.Empty)
-            throw new ArgumentException("User ID cannot be empty", nameof(id));
+            throw new DomainException(ErrorCodes.InvalidUserId, "User ID cannot be empty");
         
         if (string.IsNullOrWhiteSpace(email))
-            throw new ArgumentException("Email cannot be empty", nameof(email));
+            throw new DomainException(ErrorCodes.InvalidUserEmail, "Email cannot be empty");
         
         if (string.IsNullOrWhiteSpace(passwordHash))
-            throw new ArgumentException("Password hash cannot be empty", nameof(passwordHash));
+            throw new DomainException(ErrorCodes.InvalidPasswordHash, "Password hash cannot be empty");
 
         Id = id;
         Email = email;
@@ -34,7 +36,7 @@ public class User
     public void SoftDelete()
     {
         if (DeletedAt.HasValue)
-            throw new InvalidOperationException("User is already deleted");
+            throw new DomainException(ErrorCodes.UserAlreadyDeleted, "User is already deleted");
 
         DeletedAt = DateTime.UtcNow;
     }
