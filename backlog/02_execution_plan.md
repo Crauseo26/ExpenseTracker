@@ -32,7 +32,7 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 ## Status Dashboard
 
 ### Completed ✅
-None yet - MVP development starting
+- [x] F01-T01: Define User aggregate (Domain Agent)
 
 ### In Progress 🔄
 None
@@ -52,7 +52,6 @@ None
 **Goal**: Ensure all domain entities are scoped to a User.
 
 **Tasks:**
-- [ ] F01-T01: Define User aggregate (Domain Agent)
 - [ ] F01-T02: Implement authentication mechanism (API Agent)
 - [ ] F01-T03: Enforce user scoping in repositories (Infrastructure Agent)
 
