@@ -16,7 +16,10 @@ public class AuthenticationMiddleware
     {
         var path = context.Request.Path.Value?.ToLower() ?? string.Empty;
         
-        if (path.Contains("/auth/") || path.Contains("/weatherforecast"))
+        if (path.Contains("/auth/") || 
+            path.Contains("/weatherforecast") ||
+            path.Contains("/swagger") ||
+            path.StartsWith("/swagger"))
         {
             await _next(context);
             return;
