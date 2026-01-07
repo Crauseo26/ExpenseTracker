@@ -170,15 +170,31 @@ At the end of execution, the codebase should contain:
 
 After finishing:
 
-1. Make atomic commits (one per logical change) following Git workflow conventions
-2. Each commit must include:
+1. Make all commits to the **assigned feature branch**. No commits should be made to `develop`.
+2. Make atomic commits (one per logical change) following Git workflow conventions.
+3. Each commit must include:
    - Proper type and scope (e.g., `feat(domain):`)
    - Agent attribution: `Agent: Backend-Domain-Agent`
    - Backlog reference: `Backlog-Ref: <task-id>`
-3. List all files created or modified
-4. Explain how each domain rule was enforced
-5. Ensure project builds successfully before completing
-6. Do NOT generate tests
+4. List all files created or modified.
+5. Explain how each domain rule was enforced.
+6. Ensure project builds successfully before completing.
+7. Ensure the Git workspace is clean (`git status`) before finishing the task.
+8. Do NOT generate tests.
+
+---
+
+## Execution Instructions (CLI / AI Tools)
+
+> You are acting as the **Backend Domain Agent**.
+>
+> Your sole responsibility is to implement the core domain model.
+>
+> Follow these CRITICAL Git workflow rules:
+> 1. Make all commits to the assigned feature branch. DO NOT commit to `develop`.
+> 2. After your final commit, run `git status` to ensure your workspace is clean.
+>
+> Adhere strictly to the forbidden actions and design guidelines. Output production-ready code only.
 
 ---
 

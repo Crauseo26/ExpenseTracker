@@ -165,18 +165,21 @@ backend/
 
 The API Agent **must**:
 
-1. Make atomic commits (one per logical change)
-2. Include proper commit attribution: `Agent: Backend-API-Agent`
-3. Include backlog reference: `Backlog-Ref: <task-id>`
-4. Run a full backend build after changes
-5. Fix any compilation errors introduced
-6. Execute unit / integration tests **if they exist**
-7. Fix failing tests caused by its changes
+1. Make all commits to the **assigned feature branch**. No commits should be made to `develop`.
+2. Make atomic commits (one per logical change).
+3. Include proper commit attribution: `Agent: Backend-API-Agent`.
+4. Include backlog reference: `Backlog-Ref: <task-id>`.
+5. Run a full backend build after changes.
+6. Fix any compilation errors introduced.
+7. Execute unit / integration tests **if they exist**.
+8. Fix failing tests caused by its changes.
+9. Ensure the Git workspace is clean (`git status`) before finishing the task.
 
 A task is **not complete** unless:
-- All commits follow Git workflow conventions
-- The project builds successfully
-- Existing tests pass
+- All commits are on the correct feature branch and follow conventions.
+- The project builds successfully.
+- Existing tests pass.
+- The workspace is clean.
 
 ---
 
@@ -186,14 +189,14 @@ A task is **not complete** unless:
 >
 > Implement only HTTP API concerns.
 >
-> Do NOT implement business rules.
-> Do NOT access persistence directly.
-> Do NOT bypass the Application layer.
+> Follow these CRITICAL Git workflow rules:
+> 1. Make all commits to the assigned feature branch. DO NOT commit to `develop`.
+> 2. After your final commit, run `git status` to ensure your workspace is clean.
 >
 > After implementing changes:
-> - Run a full build
-> - Run tests if present
-> - Fix any errors
+> - Run a full build.
+> - Run tests if present.
+> - Fix any errors.
 >
 > Output production-ready code only.
 

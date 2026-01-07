@@ -215,18 +215,21 @@ backend/
 
 The Infrastructure Agent **must**:
 
-1. Make atomic commits (one per logical change)
-2. Include proper commit attribution: `Agent: Backend-Infrastructure-Agent`
-3. Include backlog reference: `Backlog-Ref: <task-id>`
-4. Run a full backend build after changes
-5. Fix compilation errors introduced by its work
-6. Ensure migrations compile and apply
-7. Leave the project in a buildable state
+1. Make all commits to the **assigned feature branch**. No commits should be made to `develop`.
+2. Make atomic commits (one per logical change).
+3. Include proper commit attribution: `Agent: Backend-Infrastructure-Agent`.
+4. Include backlog reference: `Backlog-Ref: <task-id>`.
+5. Run a full backend build after changes.
+6. Fix compilation errors introduced by its work.
+7. Ensure migrations compile and apply.
+8. Ensure the Git workspace is clean (`git status`) before finishing the task.
+9. Leave the project in a buildable state.
 
 A change is **not complete** unless:
-- All commits follow Git workflow conventions
-- The build succeeds
-- Migrations are valid
+- All commits are on the correct feature branch and follow conventions.
+- The build succeeds.
+- Migrations are valid.
+- The workspace is clean.
 
 ---
 
@@ -236,12 +239,13 @@ A change is **not complete** unless:
 >
 > Implement only persistence, repositories, DbContext, migrations, and wiring.
 >
-> Do NOT modify domain logic.
-> Do NOT change business rules.
+> Follow these CRITICAL Git workflow rules:
+> 1. Make all commits to the assigned feature branch. DO NOT commit to `develop`.
+> 2. After your final commit, run `git status` to ensure your workspace is clean.
 >
 > After implementing changes:
-> - Run a full build
-> - Fix any compilation errors
+> - Run a full build.
+> - Fix any compilation errors.
 >
 > Output production-ready code only.
 

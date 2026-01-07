@@ -160,17 +160,20 @@ backend/
 
 The Application Agent **must**:
 
-1. Make atomic commits (one per logical change)
-2. Include proper commit attribution and backlog reference
-3. Run a full backend build after changes
-4. Fix any compilation errors introduced
-5. Execute unit tests **if they exist**
-6. Fix failing tests caused by its changes
+1. Make all commits to the **assigned feature branch**. No commits should be made to `develop`.
+2. Make atomic commits (one per logical change).
+3. Include proper commit attribution and backlog reference.
+4. Run a full backend build after changes.
+5. Fix any compilation errors introduced.
+6. Execute unit tests **if they exist**.
+7. Fix failing tests caused by its changes.
+8. Ensure the Git workspace is clean (`git status`) before finishing the task.
 
 A task is **not complete** unless:
-- All commits follow Git workflow conventions
-- The project builds successfully
-- Existing unit tests pass
+- All commits are on the correct feature branch and follow conventions.
+- The project builds successfully.
+- Existing unit tests pass.
+- The workspace is clean.
 
 ---
 
@@ -180,14 +183,14 @@ A task is **not complete** unless:
 >
 > Implement only application use cases and orchestration logic.
 >
-> Do NOT modify domain invariants.
-> Do NOT write persistence code.
-> Do NOT define API controllers.
+> Follow these CRITICAL Git workflow rules:
+> 1. Make all commits to the assigned feature branch. DO NOT commit to `develop`.
+> 2. After your final commit, run `git status` to ensure your workspace is clean.
 >
 > After implementing changes:
-> - Run a full build
-> - Run unit tests if present
-> - Fix any errors
+> - Run a full build.
+> - Run unit tests if present.
+> - Fix any errors.
 >
 > Output production-ready code only.
 

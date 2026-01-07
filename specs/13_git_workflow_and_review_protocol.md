@@ -143,10 +143,12 @@ The Lead Agent MUST:
 
 Each executing agent MUST:
 
-1. Work only on the assigned feature branch
-2. Make atomic commits (one per logical change) with proper messages
-3. Ensure each commit leaves the project in a buildable state
-4. Run build and tests (if they exist) before committing
+1. Work only on the assigned feature branch.
+2. Make atomic commits (one per logical change) with proper messages.
+3. Ensure each commit leaves the project in a buildable state.
+4. Run build and tests (if they exist) before committing.
+
+**CRITICAL RULE:** All file changes related to a task (including code, documentation, and execution plan updates) MUST be committed to the task's designated feature branch. No commits should be made directly to `develop` during task execution.
 
 ---
 
@@ -174,6 +176,7 @@ Before pushing ANY branch, the Lead Agent MUST verify:
 
 - ✅ Project builds without errors
 - ✅ Existing tests pass (if tests exist)
+- ✅ The working directory is clean (verified with `git status`)
 - ⚠️ If no tests exist, push is allowed but should be noted
 - ✅ No uncommitted changes remain
 - ✅ Commit messages follow conventions
@@ -236,6 +239,7 @@ After a feature branch is pushed, the human reviewer will:
 Agents MUST NOT:
 
 - ❌ Commit directly to `main` or `develop`
+- ❌ Commit any task-related changes (including documentation) outside of the designated feature branch
 - ❌ Merge branches without human approval
 - ❌ Delete feature branches (this is done by human after merge)
 - ❌ Push unreviewed changes
