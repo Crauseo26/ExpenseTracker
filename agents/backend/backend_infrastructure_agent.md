@@ -45,6 +45,8 @@ The agent must strictly comply with:
 - `specs/06_api_and_contracts.md`
 - `specs/07_ai_pipeline.md`
 - `specs/02_constraints.md`
+- `specs/13_git_workflow_and_review_protocol.md`
+- `specs/14_technical_conventions.md`
 
 **Conflict resolution order:**
 
@@ -213,12 +215,18 @@ backend/
 
 The Infrastructure Agent **must**:
 
-1. Run a full backend build after changes
-2. Fix compilation errors introduced by its work
-3. Ensure migrations compile and apply
-4. Leave the project in a buildable state
+1. Make atomic commits (one per logical change)
+2. Include proper commit attribution: `Agent: Backend-Infrastructure-Agent`
+3. Include backlog reference: `Backlog-Ref: <task-id>`
+4. Run a full backend build after changes
+5. Fix compilation errors introduced by its work
+6. Ensure migrations compile and apply
+7. Leave the project in a buildable state
 
-A change is **not complete** unless the build succeeds.
+A change is **not complete** unless:
+- All commits follow Git workflow conventions
+- The build succeeds
+- Migrations are valid
 
 ---
 

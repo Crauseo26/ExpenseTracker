@@ -16,6 +16,8 @@ You must strictly follow the following documents:
 - `specs/08_expense-lifecycle.md`
 - `specs/05_persistence_model.md` (conceptual only)
 - `specs/11_engineering-guardrails.md`
+- `specs/13_git_workflow_and_review_protocol.md`
+- `specs/14_technical_conventions.md`
 
 If any ambiguity exists, **do not invent behavior**. Assume the specification is correct and complete.
 
@@ -168,10 +170,15 @@ At the end of execution, the codebase should contain:
 
 After finishing:
 
-1. List all files created or modified
-2. Explain how each domain rule was enforced
-3. Do NOT commit changes
-4. Do NOT generate tests
+1. Make atomic commits (one per logical change) following Git workflow conventions
+2. Each commit must include:
+   - Proper type and scope (e.g., `feat(domain):`)
+   - Agent attribution: `Agent: Backend-Domain-Agent`
+   - Backlog reference: `Backlog-Ref: <task-id>`
+3. List all files created or modified
+4. Explain how each domain rule was enforced
+5. Ensure project builds successfully before completing
+6. Do NOT generate tests
 
 ---
 

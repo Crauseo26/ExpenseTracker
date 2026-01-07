@@ -43,6 +43,8 @@ The agent must strictly comply with:
 - `specs/06_api_and_contracts.md`
 - `specs/03_domain_model.md`
 - `specs/02_constraints.md`
+- `specs/13_git_workflow_and_review_protocol.md`
+- `specs/14_technical_conventions.md`
 
 **Conflict resolution order:**
 
@@ -163,12 +165,16 @@ backend/
 
 The API Agent **must**:
 
-1. Run a full backend build after changes
-2. Fix any compilation errors introduced
-3. Execute unit / integration tests **if they exist**
-4. Fix failing tests caused by its changes
+1. Make atomic commits (one per logical change)
+2. Include proper commit attribution: `Agent: Backend-API-Agent`
+3. Include backlog reference: `Backlog-Ref: <task-id>`
+4. Run a full backend build after changes
+5. Fix any compilation errors introduced
+6. Execute unit / integration tests **if they exist**
+7. Fix failing tests caused by its changes
 
 A task is **not complete** unless:
+- All commits follow Git workflow conventions
 - The project builds successfully
 - Existing tests pass
 

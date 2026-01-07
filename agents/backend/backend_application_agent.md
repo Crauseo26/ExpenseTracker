@@ -45,6 +45,8 @@ The agent must strictly comply with:
 - `specs/06_api_and_contracts.md`
 - `specs/07_ai_pipeline.md`
 - `specs/02_constraints.md`
+- `specs/13_git_workflow_and_review_protocol.md`
+- `specs/14_technical_conventions.md`
 
 **Conflict resolution order:**
 
@@ -158,12 +160,15 @@ backend/
 
 The Application Agent **must**:
 
-1. Run a full backend build after changes
-2. Fix any compilation errors introduced
-3. Execute unit tests **if they exist**
-4. Fix failing tests caused by its changes
+1. Make atomic commits (one per logical change)
+2. Include proper commit attribution and backlog reference
+3. Run a full backend build after changes
+4. Fix any compilation errors introduced
+5. Execute unit tests **if they exist**
+6. Fix failing tests caused by its changes
 
 A task is **not complete** unless:
+- All commits follow Git workflow conventions
 - The project builds successfully
 - Existing unit tests pass
 
