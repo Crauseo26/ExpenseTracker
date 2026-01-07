@@ -174,42 +174,40 @@ First execution of Lead Agent to implement F01-T01 (User aggregate)
 
 ---
 
-### Phase 3: Validation & First Execution 🔄 IN PROGRESS
+### Phase 3: Validation & First Execution ✅ COMPLETED
 
 **Goal:** Validate the agent system works with a real task
 
 **Tasks:**
 - [x] Complete manual update to `agents/backend/backend_api_agent.md` (add conventions reference)
-- [ ] Initialize Lead Agent conversation
-- [ ] Execute first task (F01-T01: User aggregate via Domain Agent)
-- [ ] Validate workflow:
-  - [ ] Task detail file created correctly
-  - [ ] Execution plan updated properly
-  - [ ] Feature branch created with correct naming
-  - [ ] Commits follow conventions (atomic, attributed, backlog-ref)
-  - [ ] Build succeeds
-  - [ ] Push completes successfully
-- [ ] Human review of first output
-- [ ] Merge to develop
-- [ ] Validate Lead Agent updates execution plan post-merge
+- [x] Initialize Lead Agent conversation
+- [x] Execute first task (F01-T01: User aggregate via Domain Agent)
+- [x] Validate workflow:
+  - [x] Task detail file created correctly (but on wrong branch)
+  - [x] Execution plan updated properly (but on wrong branch)
+  - [x] Feature branch created with correct naming
+  - [x] Commits follow conventions (atomic, attributed, backlog-ref)
+  - [x] Build succeeds
+  - [x] Push completes successfully
+- [x] Human review of first output
+- [x] Merge to develop
+- [x] Validate Lead Agent updates execution plan post-merge (N/A for this task)
 
-**Current Status:** Ready to start - Awaiting Lead Agent conversation
+**Outcome:** Successfully validated that the agent system can produce high-quality code, while also identifying and correcting critical flaws in the agent's Git workflow execution.
 
-**Next Immediate Step:** Initialize Lead Agent conversation
+**Completed:** 2026-01-07
 
 ---
 
-### Phase 4: Iteration & Refinement 📝 PENDING
+### Phase 4: Iteration & Refinement 🔄 IN PROGRESS
 
 **Goal:** Adjust workflow based on real usage
 
 **Tasks:**
-- [ ] Review first execution results with human
-- [ ] Identify pain points or inefficiencies
-- [ ] Refine execution plan format if needed
-- [ ] Adjust agent instructions if necessary
+- [ ] Document lessons learned from first execution
+- [ ] Refine agent instructions based on lessons learned
+- [ ] Adjust execution plan format if needed
 - [ ] Update technical conventions based on actual code
-- [ ] Document lessons learned
 
 **Prerequisites:** Phase 3 completion
 
@@ -379,16 +377,37 @@ This section documents important decisions and their rationale. **Do not revisit
 
 ---
 
+## Lessons Learned From First Execution
+
+### Lesson 1: Agent Workspace Hygiene is Critical
+
+**Observation:** The Lead Agent correctly generated code and committed it to the feature branch. However, it then switched to the `develop` branch and left duplicate, untracked copies of the generated files in the workspace.
+
+**Root Cause:** The agent's process lacks a final "cleanup" step to ensure the working directory is clean after its operations.
+
+**Action Item:** The master/orchestration prompts for all agents must be updated to include an explicit instruction: "After all file operations and commits are complete, ensure the Git working directory is clean. Run `git status` to verify and address any unexpected untracked files or changes."
+
+---
+
+### Lesson 2: All Feature-Related Commits MUST Be on the Feature Branch
+
+**Observation:** The Lead Agent committed documentation updates (`backlog/02_execution_plan.md`) directly to the `develop` branch instead of the feature branch.
+
+**Root Cause:** The agent's instructions about Git workflow might be ambiguous. It correctly created and used the feature branch for code, but treated documentation as a separate concern that could be committed to `develop`.
+
+**Action Item:** The `13_git_workflow_and_review_protocol.md` and the master prompts must be updated to state explicitly: "**All** file changes related to a task (including code, documentation, and execution plan updates) MUST be committed to the task's designated feature branch. No commits should be made directly to `develop` during task execution."
+
+---
+
 ## Current Focus
 
-**Active Phase:** Phase 3 - Validation & First Execution
+**Active Phase:** Phase 4 - Iteration & Refinement
 
-**Current Task:** Ready to initialize Lead Agent conversation
+**Current Task:** Refine agent instructions and specifications based on lessons learned from the first execution.
 
 **What Needs to Happen:**
-1. Initialize Lead Agent conversation
-2. Request execution of F01-T01 (User aggregate)
-3. Observe and validate entire workflow
+1. Update `13_git_workflow_and_review_protocol.md` to be more explicit about commit locations.
+2. Update all agent definition prompts (`agents/*.md`) to include workspace hygiene and stricter Git workflow rules.
 
 ---
 
@@ -562,6 +581,41 @@ If you are taking over, here's what to do:
 
 ---
 
+### Session 2: 2026-01-07 (First Execution & Validation)
+
+**Participants:**
+- Human: Developer/Product Owner
+- AI Agent: Gemini (Google) - Project Orchestrator role
+
+**Major Accomplishments:**
+
+1. **Executed First Agent Task:** Guided human to initialize Lead Agent for task F01-T01.
+2. **Identified Workflow Flaws:** Monitored agent execution and discovered two critical process failures:
+   - Agent left untracked file duplicates in the `develop` workspace.
+   - Agent committed documentation directly to the `develop` branch.
+3. **Corrected Repository State:** Guided human to clean the workspace (`git clean`) and revert the incorrect commit (`git revert`) to restore the `develop` branch to a pristine state.
+4. **Validated Agent's Code Output:** Reviewed the generated code on the feature branch and confirmed it was of high quality and met specifications.
+5. **Completed First Feature Merge:** Human successfully merged the validated feature branch into `develop`.
+6. **Documented Lessons Learned:** Captured the workflow failures and corrective actions to be taken in this document.
+
+**Key Decisions Made:**
+- Confirmed the "revert over reset" strategy for correcting errors on shared branches.
+- Established the need to add "workspace hygiene" and stricter Git discipline to all agent prompts.
+
+**Files Created/Modified:**
+- `agents/backend/backend_api_agent.md` (Manual update at start of session)
+- Multiple files in `backend/src/Expenses.Domain/` (created by agent, now merged)
+- `PROJECT_CONTEXT.md` (this document) - major update
+
+**Status at End of Session:**
+- Phase 3: ✅ Complete
+
+**Pending Actions:**
+- Refine agent prompts and workflow documents as per "Lessons Learned".
+- Proceed with the next development task under the new, stricter guidelines.
+
+---
+
 ### [Future Sessions Will Be Added Here]
 
 Template for future entries:
@@ -681,24 +735,24 @@ Update `PROJECT_CONTEXT.md` when:
 
 ## Status Summary (Quick Reference)
 
-**Last Updated:** 2025-01-06
+**Last Updated:** 2026-01-07
 
-**Current Phase:** 3 - Validation & First Execution
+**Current Phase:** 4 - Iteration & Refinement
 
-**Overall Progress:** ~40% (2/5 phases complete)
+**Overall Progress:** ~60% (3/5 phases conceptually complete, pending refinement action items)
 
-**Blockers:** 1 minor (manual file update)
+**Blockers:** None
 
 **Ready to Start MVP Development:** Almost (after Phase 3 validation)
 
-**Next Major Milestone:** First successful task execution with Lead Agent
+**Next Major Milestone:** Successfully execute a second task (e.g., F01-T02) with the refined, stricter agent instructions, with no manual intervention required.
 
-**Confidence Level:** High - system design is complete and coherent
+**Confidence Level:** High - The system is proven to work and we have a clear path to making it more robust.
 
 ---
 
 **End of Document**
 
 *This document is maintained by AI agents under human supervision.*
-*Last session: 2025-01-06*
-*Next review: After first Lead Agent execution*
+*Last session: 2026-01-07*
+*Next review: After refinement tasks are complete*
