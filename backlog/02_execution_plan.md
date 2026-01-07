@@ -38,7 +38,7 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 None
 
 ### Ready for Review 📋
-None
+- [ ] F01-T02: Implement authentication mechanism (API Agent)
 
 ### Blocked ⛔
 None
@@ -254,6 +254,14 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2025-01-07
+- F01-T02 completed and ready for review
+- Implemented JWT-based authentication mechanism
+- Added authentication middleware and services
+- Created temporary in-memory user repository
+- All commits follow Git workflow protocol
+- Build verified successful
 
 ### 2025-01-06
 - Initial execution plan created
