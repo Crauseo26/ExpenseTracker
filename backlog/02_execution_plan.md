@@ -52,12 +52,12 @@ None
 **Goal**: Ensure all domain entities are scoped to a User.
 
 **Tasks:**
-- [ ] F01-T02: Implement authentication mechanism (API Agent)
+- [ ] F01-T02: Migrate to ASP.NET Core Identity
 - [ ] F01-T03: Enforce user scoping in repositories (Infrastructure Agent)
 
 **Agent Assignments:**
 - F01-T01: Backend-Domain-Agent
-- F01-T02: Backend-API-Agent
+- F01-T02: TBD by Lead Agent (multi-agent task)
 - F01-T03: Backend-Infrastructure-Agent
 
 **Dependencies:**
