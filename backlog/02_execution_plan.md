@@ -38,7 +38,9 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 None
 
 ### Ready for Review 📋
-None
+- [x] F01-T02: Migrate to ASP.NET Core Identity (Lead Agent)
+  - Branch: `feature/F01-T02-aspnet-core-identity`
+  - PR: https://github.com/Crauseo26/ExpenseTracker/pull/new/feature/F01-T02-aspnet-core-identity
 
 ### Blocked ⛔
 None
@@ -257,6 +259,15 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-08
+- F01-T02 completed: ASP.NET Core Identity migration
+- User aggregate now extends IdentityUser<Guid>
+- Infrastructure layer configured with AppDbContext (IdentityDbContext)
+- JWT authentication configured in API layer
+- Authentication endpoints (Register/Login) implemented
+- Build verified successfully
+- Branch pushed: feature/F01-T02-aspnet-core-identity
 
 ### 2025-01-06
 - Initial execution plan created
