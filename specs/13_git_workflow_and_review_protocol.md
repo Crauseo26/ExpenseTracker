@@ -218,19 +218,46 @@ If PR creation is not possible, the Lead Agent should provide this information i
 
 ---
 
-## Human Review Checkpoints
+## Human Review & Feedback Loop
 
-After a feature branch is pushed, the human reviewer will:
+This is the most critical checkpoint in the workflow. It ensures human oversight and allows for process refinement.
 
-1. Review commit history
-2. Review code changes
-3. Run builds and tests locally
-4. Provide feedback or approval
+### Step 1: Human Review
 
-**Definition of Done:**
-- Code reviewed and approved
-- Merged into `develop` via Pull Request
-- Feature branch deleted (done by human reviewer after merge)
+After a feature branch is pushed and a Pull Request is created, the human reviewer will:
+
+1.  Review commit history for clarity and adherence to conventions.
+2.  Review code changes for quality, correctness, and alignment with specifications.
+3.  Run builds and tests locally to verify the agent's claims.
+4.  Decide on one of two outcomes.
+
+### Step 2: Choose an Outcome
+
+#### Outcome A: Full Approval
+
+If the work is satisfactory and meets all requirements:
+
+1.  **Human Action:** Merge the Pull Request into the `develop` branch.
+2.  **Human Action:** Delete the feature branch (via the GitHub UI or locally).
+3.  **Next Step:** Notify the **Project Orchestrator Agent** (the agent in the meta-conversation, not the Lead Agent) that the merge is complete. The Orchestrator will then handle post-merge housekeeping (updating `PROJECT_CONTEXT.md`, etc.) and authorize the start of the next development cycle.
+
+#### Outcome B: Requires Changes (Bugs, Omissions, Modifications)
+
+If the work is incomplete or incorrect:
+
+1.  **Human Action:** **DO NOT MERGE** the Pull Request. Leave it open.
+2.  **Next Step:** Return to the **Project Orchestrator Agent** with detailed feedback.
+3.  **Joint Decision:** The human and the Orchestrator will decide on the best course of action:
+    *   **For minor fixes:** The Orchestrator may instruct the Lead Agent to add a new commit to the existing feature branch.
+    *   **For larger omissions (like a missing feature):** The Orchestrator will create a new, separate task in the backlog. The current PR may be merged first if its contents are valuable, or it may be discarded.
+    *   **For fundamental flaws:** The Orchestrator may recommend closing the PR and discarding the branch, then re-initiating the task with a clearer brief.
+4.  The Orchestrator is responsible for updating the backlog and instructing the Lead Agent based on the joint decision.
+
+This feedback loop is the primary mechanism for improving the agent-driven development process over time.
+
+### Definition of Done
+
+A task is not truly "Done" until it has passed human review and been successfully merged into `develop`.
 
 ---
 
