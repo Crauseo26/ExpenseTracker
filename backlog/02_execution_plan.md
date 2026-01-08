@@ -53,15 +53,18 @@ None
 
 **Tasks:**
 - [ ] F01-T02: Migrate to ASP.NET Core Identity
+- [ ] F01-T02.1: Complete Swagger UI Integration for Authentication
 - [ ] F01-T03: Enforce user scoping in repositories (Infrastructure Agent)
 
 **Agent Assignments:**
 - F01-T01: Backend-Domain-Agent
 - F01-T02: TBD by Lead Agent (multi-agent task)
+- F01-T02.1: Backend-API-Agent
 - F01-T03: Backend-Infrastructure-Agent
 
 **Dependencies:**
 - F01-T02 depends on F01-T01
+- F01-T02.1 depends on F01-T02
 - F01-T03 depends on F01-T01
 
 **Parallelization:**
