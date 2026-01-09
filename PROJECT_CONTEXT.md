@@ -204,10 +204,14 @@ First execution of Lead Agent to implement F01-T01 (User aggregate)
 **Goal:** Adjust workflow based on real usage
 
 **Tasks:**
-- [ ] Document lessons learned from first execution
-- [ ] Refine agent instructions based on lessons learned
-- [ ] Adjust execution plan format if needed
-- [ ] Update technical conventions based on actual code
+- [x] Document lessons learned from first execution (F01-T01)
+- [x] Refine agent instructions based on lessons learned (F01-T01)
+- [x] Formalize human review and feedback loop
+- [x] Execute F01-T02 (Migrate to ASP.NET Core Identity)
+- [x] Validate F01-T02 execution and identify new lessons
+- [x] Merge F01-T02 to develop
+- [x] Create F01-T02.1 (Swagger fix) in backlog
+- [ ] Execute F01-T02.1 to complete Swagger integration
 
 **Prerequisites:** Phase 3 completion
 
@@ -377,6 +381,24 @@ This section documents important decisions and their rationale. **Do not revisit
 
 ---
 
+### Decision 8: Migrate Authentication to ASP.NET Core Identity
+
+**Context:** The initial agent implementation of authentication used custom hashing (SHA256), which was identified as a critical security flaw.
+
+**Decision:** Pivot from a custom authentication implementation to a full integration with the industry-standard ASP.NET Core Identity framework.
+
+**Rationale:**
+- **Security:** Leverages battle-tested, standard security practices (PBKDF2 with salting, account lockout, etc.) out of the box, eliminating the risk of a flawed custom implementation.
+- **Maintainability:** Reduces the amount of custom security code to maintain.
+- **Extensibility:** Provides a robust foundation for future features like roles, two-factor authentication, and external logins.
+- **Learning Value:** Guides the agent-driven development process toward .NET best practices.
+
+**Impact:** Required a significant refactoring of the F01-T02 task, touching the Domain, Infrastructure, and API layers. This was a valuable test of the agent system's ability to handle complex refactoring.
+
+**Reference:** Session 3 (2026-01-08)
+
+---
+
 ## Lessons Learned From First Execution
 
 ### Lesson 1: Agent Workspace Hygiene is Critical
@@ -403,11 +425,11 @@ This section documents important decisions and their rationale. **Do not revisit
 
 **Active Phase:** Phase 4 - Iteration & Refinement
 
-**Current Task:** Refine agent instructions and specifications based on lessons learned from the first execution.
+**Current Task:** Execute F01-T02.1: Complete Swagger UI Integration for Authentication
 
 **What Needs to Happen:**
-1. Update `13_git_workflow_and_review_protocol.md` to be more explicit about commit locations.
-2. Update all agent definition prompts (`agents/*.md`) to include workspace hygiene and stricter Git workflow rules.
+1. Guide human to kick off Lead Agent for F01-T02.1.
+2. Monitor and validate agent execution of F01-T02.1.
 
 ---
 
@@ -616,6 +638,40 @@ If you are taking over, here's what to do:
 
 ---
 
+### Session 3: 2026-01-08 (Identity Migration & Process Refinement)
+
+**Participants:**
+- Human: Developer/Product Owner
+- AI Agent: Gemini (Google) - Project Orchestrator role
+
+**Major Accomplishments:**
+1. **Executed F01-T02 (Initial Auth):** Guided Lead Agent to implement authentication.
+2. **Identified Critical Security Flaw:** My review detected insecure password hashing (plain SHA256) in the agent's output.
+3. **Made Strategic Pivot:** Collaborated with human to discard the flawed implementation in favor of migrating to the industry-standard ASP.NET Core Identity.
+4. **Formalized Feedback Loop:** Updated the Git workflow (`specs/13_...`) to explicitly document the human review and feedback process we were practicing.
+5. **Executed F01-T02 (Identity Migration):** Guided Lead Agent to perform the complex refactoring to ASP.NET Core Identity.
+6. **Validated Identity Migration:** Confirmed the agent successfully implemented Identity across the Domain, Infrastructure, and API layers with high quality.
+7. **Identified Minor Omission:** Human review confirmed the Identity migration was excellent but omitted the functional Swagger UI from the final commit.
+8. **Created Follow-up Task:** Updated the backlog to include a new, specific task (F01-T02.1) to address the Swagger UI implementation.
+
+**Key Decisions Made:**
+- Prioritized long-term security and maintainability over a short-term fix by migrating to ASP.NET Core Identity.
+- Formalized the Human-in-the-loop review and correction process in the project's official workflow.
+
+**Files Created/Modified:**
+- `specs/13_git_workflow_and_review_protocol.md` (Added feedback loop)
+- `backlog/02_execution_plan.md` (Pivoted F01-T02 and added F01-T02.1)
+- `PROJECT_CONTEXT.md` (this document) - major update
+
+**Status at End of Session:**
+- F01-T02 (Identity Migration) is merged.
+- Ready to execute F01-T02.1 (Swagger fix).
+
+**Pending Actions:**
+- Execute F01-T02.1 to complete the authentication feature.
+
+---
+
 ### [Future Sessions Will Be Added Here]
 
 Template for future entries:
@@ -735,19 +791,19 @@ Update `PROJECT_CONTEXT.md` when:
 
 ## Status Summary (Quick Reference)
 
-**Last Updated:** 2026-01-07
+**Last Updated:** 2026-01-08
 
 **Current Phase:** 4 - Iteration & Refinement
 
-**Overall Progress:** ~60% (3/5 phases conceptually complete, pending refinement action items)
+**Overall Progress:** ~70% (Core authentication feature is complete, pending Swagger fix)
 
 **Blockers:** None
 
-**Ready to Start MVP Development:** Almost (after Phase 3 validation)
+**Ready to Start MVP Development:** Yes.
 
-**Next Major Milestone:** Successfully execute a second task (e.g., F01-T02) with the refined, stricter agent instructions, with no manual intervention required.
+**Next Major Milestone:** Successfully execute task F01-T02.1 (Swagger fix) and have a fully testable authentication feature.
 
-**Confidence Level:** High - The system is proven to work and we have a clear path to making it more robust.
+**Confidence Level:** Very High - The agent system has proven capable of handling complex refactoring and is improving with each iteration.
 
 ---
 
