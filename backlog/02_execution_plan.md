@@ -41,6 +41,9 @@ None
 - [x] F01-T02: Migrate to ASP.NET Core Identity (Lead Agent)
   - Branch: `feature/F01-T02-aspnet-core-identity`
   - PR: https://github.com/Crauseo26/ExpenseTracker/pull/new/feature/F01-T02-aspnet-core-identity
+- [x] F01-T02.1: Complete Swagger UI Integration for Authentication (Lead Agent)
+  - Branch: `feature/F01-T02.1-swagger-authentication`
+  - PR: https://github.com/Crauseo26/ExpenseTracker/pull/new/feature/F01-T02.1-swagger-authentication
 
 ### Blocked ⛔
 None
@@ -268,6 +271,14 @@ None
 - Authentication endpoints (Register/Login) implemented
 - Build verified successfully
 - Branch pushed: feature/F01-T02-aspnet-core-identity
+
+- F01-T02.1 completed: Swagger UI Integration for Authentication
+- Replaced Microsoft.AspNetCore.OpenApi with Swashbuckle.AspNetCore (v6.9.0)
+- Configured Swagger with JWT Bearer security scheme
+- Added authorization button to Swagger UI for testing authenticated endpoints
+- Swagger endpoint configured at /swagger
+- Build verified successfully
+- Branch pushed: feature/F01-T02.1-swagger-authentication
 
 ### 2025-01-06
 - Initial execution plan created
