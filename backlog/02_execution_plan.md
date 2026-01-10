@@ -33,20 +33,15 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 
 ### Completed ✅
 - [x] F01-T01: Define User aggregate (Domain Agent)
+- [x] F01-T02: Migrate to ASP.NET Core Identity
+- [x] F01-T02.1: Complete Swagger UI Integration for Authentication
+- [x] F01-T03: Enforce user scoping in repositories (Infrastructure Agent)
 
 ### In Progress 🔄
 None
 
 ### Ready for Review 📋
-- [x] F01-T02: Migrate to ASP.NET Core Identity (Lead Agent)
-  - Branch: `feature/F01-T02-aspnet-core-identity`
-  - PR: https://github.com/Crauseo26/ExpenseTracker/pull/new/feature/F01-T02-aspnet-core-identity
-- [x] F01-T02.1: Complete Swagger UI Integration for Authentication (Lead Agent)
-  - Branch: `feature/F01-T02.1-swagger-authentication`
-  - PR: https://github.com/Crauseo26/ExpenseTracker/pull/new/feature/F01-T02.1-swagger-authentication
-- [x] F01-T03: Enforce user scoping in repositories (Infrastructure Agent)
-  - Branch: `feature/F01-T03-user-scoping-repositories`
-  - PR: https://github.com/Crauseo26/ExpenseTracker/pull/new/feature/F01-T03-user-scoping-repositories
+None
 
 ### Blocked ⛔
 None
@@ -54,31 +49,6 @@ None
 ---
 
 ## Pending Tasks (Priority Order) 📝
-
-### Feature 01 — User Authentication & Scoping
-
-**Goal**: Ensure all domain entities are scoped to a User.
-
-**Tasks:**
-- [ ] F01-T02: Migrate to ASP.NET Core Identity
-- [ ] F01-T02.1: Complete Swagger UI Integration for Authentication
-- [ ] F01-T03: Enforce user scoping in repositories (Infrastructure Agent)
-
-**Agent Assignments:**
-- F01-T01: Backend-Domain-Agent
-- F01-T02: TBD by Lead Agent (multi-agent task)
-- F01-T02.1: Backend-API-Agent
-- F01-T03: Backend-Infrastructure-Agent
-
-**Dependencies:**
-- F01-T02 depends on F01-T01
-- F01-T02.1 depends on F01-T02
-- F01-T03 depends on F01-T01
-
-**Parallelization:**
-- None in F01 (sequential execution required)
-
----
 
 ### Feature 02 — Expense Core Lifecycle
 
@@ -267,14 +237,9 @@ None
 ## Notes & Decisions
 
 ### 2026-01-10
-- F01-T03 completed: Enforce user scoping in repositories
-- Created UserRepository implementing IUserRepository interface
-- Registered UserRepository in DI container
-- Added comprehensive documentation for user scoping pattern (README.md in Repositories folder)
-- Removed placeholder Class1.cs file
-- All queries properly scoped to prevent cross-user data access
-- Build verified successfully
-- Branch pushed: feature/F01-T03-user-scoping-repositories
+- F01-T03 completed and merged.
+- **Feature F01 (User Authentication & Scoping) is now fully complete.**
+- Ready to begin work on Feature F02.
 
 ### 2026-01-08
 - F01-T02 completed: ASP.NET Core Identity migration
