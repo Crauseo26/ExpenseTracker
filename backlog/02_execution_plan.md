@@ -44,6 +44,9 @@ None
 - [x] F01-T02.1: Complete Swagger UI Integration for Authentication (Lead Agent)
   - Branch: `feature/F01-T02.1-swagger-authentication`
   - PR: https://github.com/Crauseo26/ExpenseTracker/pull/new/feature/F01-T02.1-swagger-authentication
+- [x] F01-T03: Enforce user scoping in repositories (Infrastructure Agent)
+  - Branch: `feature/F01-T03-user-scoping-repositories`
+  - PR: https://github.com/Crauseo26/ExpenseTracker/pull/new/feature/F01-T03-user-scoping-repositories
 
 ### Blocked ⛔
 None
@@ -262,6 +265,16 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-10
+- F01-T03 completed: Enforce user scoping in repositories
+- Created UserRepository implementing IUserRepository interface
+- Registered UserRepository in DI container
+- Added comprehensive documentation for user scoping pattern (README.md in Repositories folder)
+- Removed placeholder Class1.cs file
+- All queries properly scoped to prevent cross-user data access
+- Build verified successfully
+- Branch pushed: feature/F01-T03-user-scoping-repositories
 
 ### 2026-01-08
 - F01-T02 completed: ASP.NET Core Identity migration
