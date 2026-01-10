@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Expenses.Domain.Aggregates.User;
+using Expenses.Domain.Interfaces;
 using Expenses.Infrastructure.Persistence;
+using Expenses.Infrastructure.Repositories;
 
 namespace Expenses.Infrastructure.DependencyInjection;
 
@@ -43,6 +45,8 @@ public static class InfrastructureServiceCollectionExtensions
         })
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
+
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }
