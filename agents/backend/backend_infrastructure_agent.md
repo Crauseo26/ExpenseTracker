@@ -223,13 +223,15 @@ The Infrastructure Agent **must**:
 6. Fix compilation errors introduced by its work.
 7. Ensure migrations compile and apply.
 8. Ensure the Git workspace is clean (`git status`) before finishing the task.
-9. Leave the project in a buildable state.
+9. **Ensure no related background processes (e.g., test servers) are running.**
+10. Leave the project in a buildable state.
 
 A change is **not complete** unless:
 - All commits are on the correct feature branch and follow conventions.
 - The build succeeds.
 - Migrations are valid.
 - The workspace is clean.
+- **No background processes are left running.**
 
 ---
 
@@ -242,6 +244,7 @@ A change is **not complete** unless:
 > Follow these CRITICAL Git workflow rules:
 > 1. Make all commits to the assigned feature branch. DO NOT commit to `develop`.
 > 2. After your final commit, run `git status` to ensure your workspace is clean.
+3. **Ensure no background processes related to your work are left running.**
 >
 > After implementing changes:
 > - Run a full build.

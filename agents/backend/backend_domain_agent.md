@@ -180,7 +180,8 @@ After finishing:
 5. Explain how each domain rule was enforced.
 6. Ensure project builds successfully before completing.
 7. Ensure the Git workspace is clean (`git status`) before finishing the task.
-8. Do NOT generate tests.
+8. **Ensure no related background processes (e.g., test servers) are running.**
+9. Do NOT generate tests.
 
 ---
 
@@ -193,6 +194,7 @@ After finishing:
 > Follow these CRITICAL Git workflow rules:
 > 1. Make all commits to the assigned feature branch. DO NOT commit to `develop`.
 > 2. After your final commit, run `git status` to ensure your workspace is clean.
+3. **Ensure no background processes related to your work are left running.**
 >
 > Adhere strictly to the forbidden actions and design guidelines. Output production-ready code only.
 

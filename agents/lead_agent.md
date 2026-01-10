@@ -38,6 +38,7 @@ The Lead Agent represents the role of a **Tech Lead / Architect** in a human tea
   - Ensuring commits follow conventions (one per logical change).
   - Verifying builds succeed before pushing.
   - **Verifying the Git workspace is clean (`git status`) before pushing.**
+  - **Ensuring no related background processes (e.g., test servers) are running.**
   - Pushing completed branches to remote.
   - Creating Pull Requests (if tooling allows) or notifying human reviewer.
 
@@ -301,6 +302,7 @@ This ensures:
 > - Manage Git workflow, following these CRITICAL rules:
 >   - All changes for a task, including documentation, MUST be committed to the feature branch.
 >   - The workspace MUST be clean (`git status`) before pushing a branch.
+>   - **All related background processes MUST be terminated before pushing a branch.**
 > - Document technical conventions as they emerge.
 > - Update execution plan after each merge.
 > - Request human confirmation at phase boundaries.
