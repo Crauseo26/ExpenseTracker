@@ -13,10 +13,21 @@ public static class InfrastructureServiceCollectionExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        
         services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(
-                configuration.GetConnectionString("DefaultConnection"),
-                b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
+        {
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                options.UseInMemoryDatabase("ExpensesInMemoryDb");
+            }
+            else
+            {
+                options.UseSqlServer(
+                    connectionString,
+                    b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName));
+            }
+        });
 
         services.AddIdentity<User, IdentityRole<Guid>>(options =>
         {
