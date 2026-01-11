@@ -199,7 +199,7 @@ First execution of Lead Agent to implement F01-T01 (User aggregate)
 
 ---
 
-### Phase 4: Iteration & Refinement 🔄 IN PROGRESS
+### Phase 4: Iteration & Refinement ✅ COMPLETED
 
 **Goal:** Adjust workflow based on real usage
 
@@ -211,13 +211,21 @@ First execution of Lead Agent to implement F01-T01 (User aggregate)
 - [x] Validate F01-T02 execution and identify new lessons
 - [x] Merge F01-T02 to develop
 - [x] Create F01-T02.1 (Swagger fix) in backlog
-- [ ] Execute F01-T02.1 to complete Swagger integration
+- [x] Execute F01-T02.1 to complete Swagger integration
+- [x] Validate F01-T02.1 execution and identify new lessons
+- [x] Merge F01-T02.1 to develop
+- [x] Execute F01-T03 (Enforce user scoping)
+- [x] Validate F01-T03 execution
+- [x] Merge F01-T03 to develop
+- [x] Refine agent instructions based on lessons learned (F01-T03)
 
-**Prerequisites:** Phase 3 completion
+**Outcome:** Feature F01 is fully implemented. The agent-driven workflow, including the human feedback loop and process refinement, is validated and robust.
+
+**Completed:** 2026-01-10
 
 ---
 
-### Phase 5: Scale & Parallelize 📝 PENDING
+### Phase 5: Scale & Parallelize 🔄 IN PROGRESS
 
 **Goal:** Execute multiple features in parallel
 
@@ -423,13 +431,13 @@ This section documents important decisions and their rationale. **Do not revisit
 
 ## Current Focus
 
-**Active Phase:** Phase 4 - Iteration & Refinement
+**Active Phase:** Phase 5 - Scale & Parallelize
 
-**Current Task:** Execute F01-T02.1: Complete Swagger UI Integration for Authentication
+**Current Task:** Prepare for F02-T01: Implement Expense aggregate lifecycle
 
 **What Needs to Happen:**
-1. Guide human to kick off Lead Agent for F01-T02.1.
-2. Monitor and validate agent execution of F01-T02.1.
+1. Guide human to kick off Lead Agent for F02-T01.
+2. Monitor and validate agent execution of F02-T01.
 
 ---
 
@@ -672,6 +680,67 @@ If you are taking over, here's what to do:
 
 ---
 
+### Session 4: 2026-01-08 (Swagger Integration & Process Hygiene Lesson)
+
+**Participants:**
+- Human: Developer/Product Owner
+- AI Agent: Gemini (Google) - Project Orchestrator role
+
+**Major Accomplishments:**
+1. **Executed F01-T02.1 (Swagger Fix):** Guided Lead Agent to complete the missing Swagger UI integration for authentication.
+2. **Validated F01-T02.1:** Confirmed the agent successfully implemented Swagger UI with JWT authentication, including in-memory database configuration for testing. Code quality was excellent.
+3. **Identified New Lesson: Process Hygiene:** Discovered that agent processes (e.g., `dotnet run`) can remain active and lock build files, even when `git status` shows a clean working directory. This led to a new action item to update agent instructions.
+4. **Completed Entire F01-T02 Work Item:** The core Identity migration and its supporting Swagger UI and in-memory DB setup are now fully implemented and merged.
+
+**Key Decisions Made:**
+- Identified "Process Hygiene" (terminating background processes) as a critical addition to agent workflow rules.
+
+**Files Created/Modified:**
+- `backend/src/Expenses.Api/Program.cs` (Swagger config)
+- `backend/src/Expenses.Infrastructure/DependencyInjection/InfrastructureServiceCollectionExtensions.cs` (in-memory DB)
+- `backend/src/Expenses.Infrastructure/Expenses.Infrastructure.csproj` (Added InMemory package)
+- `PROJECT_CONTEXT.md` (this document) - major update
+
+**Status at End of Session:**
+- F01-T02.1 (Swagger fix) is merged.
+- Ready to execute F01-T03.
+
+**Pending Actions:**
+- Refine agent instructions to include new "Process Hygiene" rule.
+- Proceed with the next development task (F01-T03).
+
+---
+
+### Session 5: 2026-01-10 (User Scoping & Feature Completion)
+
+**Participants:**
+- Human: Developer/Product Owner
+- AI Agent: Gemini (Google) - Project Orchestrator role
+
+**Major Accomplishments:**
+1. **Executed F01-T03 (User Scoping):** Guided Lead Agent to implement the `UserRepository` and enforce user scoping in all queries.
+2. **Validated F01-T03:** Confirmed the agent successfully implemented the repository with high quality, including proactive documentation of the data isolation pattern.
+3. **Completed Feature F01:** The final task for the "User Authentication & Scoping" feature was successfully merged into `develop`.
+4. **Finalized Process Refinements:** Updated all agent definitions to include the "Process Hygiene" rule about terminating background processes.
+
+**Key Decisions Made:**
+- None in this session; focused on execution and finalization of F01.
+
+**Files Created/Modified:**
+- `backend/src/Expenses.Infrastructure/Repositories/UserRepository.cs`
+- `backend/src/Expenses.Infrastructure/Repositories/README.md`
+- `agents/*.md` (all agent definitions updated)
+- `specs/13_git_workflow_and_review_protocol.md` (updated with process hygiene rule)
+
+**Status at End of Session:**
+- Feature F01 is fully complete and merged.
+- Ready to start Feature F02 (Expense Core Lifecycle).
+
+**Pending Actions:**
+- Proceed with the next development task (F02-T01).
+
+---
+
 ### [Future Sessions Will Be Added Here]
 
 Template for future entries:
@@ -791,19 +860,19 @@ Update `PROJECT_CONTEXT.md` when:
 
 ## Status Summary (Quick Reference)
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-01-10
 
-**Current Phase:** 4 - Iteration & Refinement
+**Current Phase:** 5 - Scale & Parallelize
 
-**Overall Progress:** ~70% (Core authentication feature is complete, pending Swagger fix)
+**Overall Progress:** ~80% (Feature F01 is fully complete and merged, ready to start F02)
 
 **Blockers:** None
 
 **Ready to Start MVP Development:** Yes.
 
-**Next Major Milestone:** Successfully execute task F01-T02.1 (Swagger fix) and have a fully testable authentication feature.
+**Next Major Milestone:** Successfully execute task F02-T01 (Implement Expense aggregate lifecycle).
 
-**Confidence Level:** Very High - The agent system has proven capable of handling complex refactoring and is improving with each iteration.
+**Confidence Level:** Very High - The agent system and workflow are proven and robust.
 
 ---
 
