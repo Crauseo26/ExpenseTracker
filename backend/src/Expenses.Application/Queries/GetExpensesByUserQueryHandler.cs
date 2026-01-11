@@ -1,4 +1,5 @@
 using Expenses.Application.DTOs;
+using Expenses.Domain.Aggregates.Expense;
 using Expenses.Domain.Interfaces;
 
 namespace Expenses.Application.Queries;
@@ -14,7 +15,7 @@ public class GetExpensesByUserQueryHandler
 
     public async Task<GetExpensesByUserResult> HandleAsync(GetExpensesByUserQuery query, CancellationToken cancellationToken = default)
     {
-        IEnumerable<Domain.Aggregates.Expense.Expense> expenses;
+        IEnumerable<Expense> expenses;
 
         if (query.StartDate.HasValue && query.EndDate.HasValue)
         {

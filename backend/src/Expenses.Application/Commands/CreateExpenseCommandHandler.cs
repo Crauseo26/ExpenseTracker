@@ -39,7 +39,7 @@ public class CreateExpenseCommandHandler
 
             var money = new Money(command.Amount, currency);
 
-            var expense = Domain.Aggregates.Expense.Expense.CreateManual(
+            var expense = Expense.CreateManual(
                 command.UserId,
                 command.AccountId,
                 money,

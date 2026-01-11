@@ -18,7 +18,7 @@ public record ExpenseDto
     public DateTime CreatedAt { get; init; }
     public DateTime UpdatedAt { get; init; }
 
-    public static ExpenseDto FromDomain(Domain.Aggregates.Expense.Expense expense)
+    public static ExpenseDto FromDomain(Expense expense)
     {
         return new ExpenseDto
         {
