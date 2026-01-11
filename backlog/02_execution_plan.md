@@ -37,37 +37,17 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 - [x] F01-T02.1: Complete Swagger UI Integration for Authentication
 - [x] F01-T03: Enforce user scoping in repositories (Infrastructure Agent)
 - [x] F02-T01: Implement Expense aggregate lifecycle (Domain Agent)
+- [x] F02-T02: Implement expense use cases (Application Agent)
 
 ### In Progress 🔄
 None
 
 ### Ready for Review 📋
-- [ ] F02-T02: Implement expense use cases (Application Agent) - Branch: feature/F02-T02-expense-use-cases
+None
 
 ---
 
 ## Pending Tasks (Priority Order) 📝
-
-### Feature 02 — Expense Core Lifecycle
-
-**Goal**: Support manual creation and editing of Expenses.
-
-**Tasks:**
-- [x] F02-T01: Implement Expense aggregate lifecycle (Domain Agent)
-- [ ] F02-T02: Implement expense use cases (Application Agent)
-
-**Agent Assignments:**
-- F02-T01: Backend-Domain-Agent
-- F02-T02: Backend-Application-Agent
-
-**Dependencies:**
-- F02 depends on F01-T01 (User aggregate must exist)
-- F02-T02 depends on F02-T01
-
-**Parallelization:**
-- F02-T01 can start after F01-T01 is merged (doesn't need F01-T02 or F01-T03)
-
----
 
 ### Feature 03 — Account & Account Group Management
 
@@ -235,21 +215,10 @@ None
 ## Notes & Decisions
 
 ### 2026-01-10 (Later)
-- F02-T01 completed and merged.
-- Expense aggregate lifecycle is now implemented.
-- Ready to begin work on F02-T02.
-
-- F02-T02 completed: Expense use cases implementation
-- Created Expenses.Application layer project
-- Implemented IExpenseRepository interface in Domain layer
-- Implemented ExpenseDto for data transfer
-- Implemented command handlers: CreateExpense, UpdateExpense, ConfirmExpense, DeleteExpense
-- Implemented query handlers: GetExpenseById, GetExpensesByUser with date filtering
-- All use cases follow expense lifecycle rules from specs/08_expense_lifecycle.md
-- User scoping enforced in all operations
-- DI configuration for Application layer
-- Build verified successfully
-- Branch pushed: feature/F02-T02-expense-use-cases
+- F02-T02 completed and merged.
+- Expense use cases (CQRS) are now implemented.
+- **Feature F02 (Expense Core Lifecycle) is now fully complete.**
+- Ready to begin work on Feature F03.
 
 ### 2026-01-10
 - F01-T03 completed and merged.
