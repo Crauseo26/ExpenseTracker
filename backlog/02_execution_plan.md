@@ -42,7 +42,7 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 None
 
 ### Ready for Review 📋
-None
+- [ ] F02-T02: Implement expense use cases (Application Agent) - Branch: feature/F02-T02-expense-use-cases
 
 ---
 
@@ -53,6 +53,7 @@ None
 **Goal**: Support manual creation and editing of Expenses.
 
 **Tasks:**
+- [x] F02-T01: Implement Expense aggregate lifecycle (Domain Agent)
 - [ ] F02-T02: Implement expense use cases (Application Agent)
 
 **Agent Assignments:**
@@ -237,6 +238,18 @@ None
 - F02-T01 completed and merged.
 - Expense aggregate lifecycle is now implemented.
 - Ready to begin work on F02-T02.
+
+- F02-T02 completed: Expense use cases implementation
+- Created Expenses.Application layer project
+- Implemented IExpenseRepository interface in Domain layer
+- Implemented ExpenseDto for data transfer
+- Implemented command handlers: CreateExpense, UpdateExpense, ConfirmExpense, DeleteExpense
+- Implemented query handlers: GetExpenseById, GetExpensesByUser with date filtering
+- All use cases follow expense lifecycle rules from specs/08_expense_lifecycle.md
+- User scoping enforced in all operations
+- DI configuration for Application layer
+- Build verified successfully
+- Branch pushed: feature/F02-T02-expense-use-cases
 
 ### 2026-01-10
 - F01-T03 completed and merged.
