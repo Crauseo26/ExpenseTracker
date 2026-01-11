@@ -37,13 +37,13 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 - [x] F01-T02.1: Complete Swagger UI Integration for Authentication
 - [x] F01-T03: Enforce user scoping in repositories (Infrastructure Agent)
 - [x] F02-T01: Implement Expense aggregate lifecycle (Domain Agent)
-- [x] F02-T02: Implement expense use cases (Application Agent)
 
 ### In Progress 🔄
 None
 
 ### Ready for Review 📋
-None
+- [ ] F02-T02: Implement expense use cases (Application Agent) - Branch: feature/F02-T02-expense-use-cases
+- [ ] F03-T01: Implement Account and AccountGroup aggregates (Domain Agent) - Branch: feature/F03-T01-account-aggregates
 
 ---
 
@@ -54,7 +54,7 @@ None
 **Goal**: Enable expense categorization via Accounts.
 
 **Tasks:**
-- [ ] F03-T01: Implement Account and AccountGroup aggregates (Domain Agent)
+- [x] F03-T01: Implement Account and AccountGroup aggregates (Domain Agent)
 - [ ] F03-T02: Implement account management use cases (Application Agent)
 
 **Agent Assignments:**
@@ -214,11 +214,29 @@ None
 
 ## Notes & Decisions
 
+### 2026-01-11
+- F03-T01 completed: Account and AccountGroup aggregates implementation
+- Implemented ExpenseGroup aggregate with user scoping
+- Implemented Account aggregate with ExpenseGroup reference
+- Account can be reassigned to different ExpenseGroup (does not modify existing expenses)
+- Both aggregates support soft delete
+- Added domain error codes for Account (3xxx) and ExpenseGroup (4xxx)
+- Implemented IAccountRepository and IExpenseGroupRepository interfaces
+- Build verified successfully
+- Branch pushed: feature/F03-T01-account-aggregates
+
 ### 2026-01-10 (Later)
-- F02-T02 completed and merged.
-- Expense use cases (CQRS) are now implemented.
-- **Feature F02 (Expense Core Lifecycle) is now fully complete.**
-- Ready to begin work on Feature F03.
+- F02-T02 completed: Expense use cases implementation
+- Created Expenses.Application layer project
+- Implemented IExpenseRepository interface in Domain layer
+- Implemented ExpenseDto for data transfer
+- Implemented command handlers: CreateExpense, UpdateExpense, ConfirmExpense, DeleteExpense
+- Implemented query handlers: GetExpenseById, GetExpensesByUser with date filtering
+- All use cases follow expense lifecycle rules from specs/08_expense_lifecycle.md
+- User scoping enforced in all operations
+- DI configuration for Application layer
+- Build verified successfully
+- Branch pushed: feature/F02-T02-expense-use-cases
 
 ### 2026-01-10
 - F01-T03 completed and merged.
