@@ -36,14 +36,12 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 - [x] F01-T02: Migrate to ASP.NET Core Identity
 - [x] F01-T02.1: Complete Swagger UI Integration for Authentication
 - [x] F01-T03: Enforce user scoping in repositories (Infrastructure Agent)
+- [x] F02-T01: Implement Expense aggregate lifecycle (Domain Agent)
 
 ### In Progress 🔄
 None
 
 ### Ready for Review 📋
-- [ ] F02-T01: Implement Expense aggregate lifecycle (Domain Agent) - Branch: feature/F02-T01-expense-aggregate
-
-### Blocked ⛔
 None
 
 ---
@@ -55,7 +53,6 @@ None
 **Goal**: Support manual creation and editing of Expenses.
 
 **Tasks:**
-- [ ] F02-T01: Implement Expense aggregate lifecycle (Domain Agent)
 - [ ] F02-T02: Implement expense use cases (Application Agent)
 
 **Agent Assignments:**
@@ -235,6 +232,11 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-10 (Later)
+- F02-T01 completed and merged.
+- Expense aggregate lifecycle is now implemented.
+- Ready to begin work on F02-T02.
 
 ### 2026-01-10
 - F01-T03 completed and merged.
