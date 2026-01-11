@@ -41,7 +41,7 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 None
 
 ### Ready for Review 📋
-None
+- [ ] F02-T01: Implement Expense aggregate lifecycle (Domain Agent) - Branch: feature/F02-T01-expense-aggregate
 
 ### Blocked ⛔
 None
@@ -240,6 +240,17 @@ None
 - F01-T03 completed and merged.
 - **Feature F01 (User Authentication & Scoping) is now fully complete.**
 - Ready to begin work on Feature F02.
+
+- F02-T01 completed: Expense aggregate lifecycle implementation
+- Implemented Expense aggregate root with full lifecycle rules per specs/08_expense_lifecycle.md
+- Added Currency enum (UYU, USD) and Money value object with validation
+- Added ExpenseStatus (PendingReview, Confirmed) and ExpenseType (Sporadic, Repetitive) enums
+- Implemented factory methods for manual and AI-based expense creation
+- State transitions: PendingReview → Confirmed (irreversible)
+- Month/year immutable for Confirmed expenses
+- Soft delete support
+- Build verified successfully
+- Branch pushed: feature/F02-T01-expense-aggregate
 
 ### 2026-01-08
 - F01-T02 completed: ASP.NET Core Identity migration
