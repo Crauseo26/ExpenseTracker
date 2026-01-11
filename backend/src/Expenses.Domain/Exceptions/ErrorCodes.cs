@@ -15,4 +15,13 @@ public static class ErrorCodes
     public const string InvalidPurchaseDateEdit = "DOM2004";
     public const string InvalidExpenseDescription = "DOM2005";
     public const string InvalidAccountId = "DOM2006";
+
+    // Account errors: 3xxx
+    public const string InvalidAccountName = "DOM3001";
+    public const string AccountAlreadyDeleted = "DOM3002";
+    public const string InvalidExpenseGroupId = "DOM3003";
+
+    // ExpenseGroup errors: 4xxx
+    public const string InvalidExpenseGroupName = "DOM4001";
+    public const string ExpenseGroupAlreadyDeleted = "DOM4002";
 }
