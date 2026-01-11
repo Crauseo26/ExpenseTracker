@@ -864,13 +864,13 @@ Update `PROJECT_CONTEXT.md` when:
 
 **Current Phase:** 5 - Scale & Parallelize
 
-**Overall Progress:** ~80% (Feature F01 is fully complete and merged, ready to start F02)
+**Overall Progress:** ~85% (Feature F01 and F02-T01 are fully complete and merged, ready to start F02-T02)
 
 **Blockers:** None
 
 **Ready to Start MVP Development:** Yes.
 
-**Next Major Milestone:** Successfully execute task F02-T01 (Implement Expense aggregate lifecycle).
+**Next Major Milestone:** Successfully execute task F02-T02 (Implement Expense use cases).
 
 **Confidence Level:** Very High - The agent system and workflow are proven and robust.
 
