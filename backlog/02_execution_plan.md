@@ -40,12 +40,13 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 - [x] F02-T02: Implement expense use cases (Application Agent)
 - [x] F03-T01: Implement Account and AccountGroup aggregates (Domain Agent)
 - [x] F03-T02: Implement account management use cases (Application Agent)
+- [x] F04-T01: Implement ExpenseInput aggregate (Domain Agent)
 
 ### In Progress 🔄
 None
 
 ### Ready for Review 📋
-- [ ] F04-T01: Implement ExpenseInput aggregate (Domain Agent) - Branch: feature/F04-T01-expense-input-aggregate
+None
 
 ### Blocked ⛔
 None
@@ -59,7 +60,6 @@ None
 **Goal**: Convert unstructured text into proposed Expenses.
 
 **Tasks:**
-- [x] F04-T01: Implement ExpenseInput aggregate (Domain Agent)
 - [ ] F04-T02: Implement AI integration interfaces (Application Agent)
 - [ ] F04-T03: Implement AI service client (Application Agent)
 
@@ -198,23 +198,12 @@ None
 
 ## Notes & Decisions
 
-### 2026-01-11
-- F04-T01 completed: ExpenseInput aggregate implementation
-- Implemented InputType enum (TEXT, IMAGE, NOTIFICATION)
-- Implemented ProcessingStatus enum (PENDING, PROCESSED, ERROR)
-- Implemented ExpenseInput aggregate with immutable-after-processing lifecycle
-- Properties: Id, UserId, InputType, RawContent, NormalizedContent, Status, ErrorMessage, CreatedAt, ProcessedAt, DeletedAt
-- Factory method Create with validation (max 10000 chars for raw content)
-- SetNormalizedContent for AI pipeline normalization stage
-- MarkAsProcessed for successful AI processing
-- MarkAsError with error message tracking for failed processing
-- SoftDelete for audit trail
-- State transitions: PENDING -> PROCESSED or PENDING -> ERROR (immutable after)
-- Added domain error codes for ExpenseInput (DOM5001-DOM5013)
-- Implemented IExpenseInputRepository with user scoping and pending queue query
-- Build verified successfully
-- Branch pushed: feature/F04-T01-expense-input-aggregate
+### 2026-01-11 (Later)
+- F04-T01 completed and merged.
+- ExpenseInput aggregate is now implemented.
+- Ready to begin work on F04-T02.
 
+### 2026-01-11
 - F03-T02 completed: Account management use cases implementation
 - Implemented AccountDto and AccountGroupDto for data transfer
 - Implemented command handlers: CreateAccountGroup, UpdateAccountGroup, DeleteAccountGroup
