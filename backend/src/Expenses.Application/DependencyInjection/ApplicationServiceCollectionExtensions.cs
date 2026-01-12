@@ -15,6 +15,18 @@ public static class ApplicationServiceCollectionExtensions
         services.AddScoped<GetExpenseByIdQueryHandler>();
         services.AddScoped<GetExpensesByUserQueryHandler>();
 
+        services.AddScoped<CreateAccountGroupCommandHandler>();
+        services.AddScoped<UpdateAccountGroupCommandHandler>();
+        services.AddScoped<DeleteAccountGroupCommandHandler>();
+        services.AddScoped<GetAccountGroupByIdQueryHandler>();
+        services.AddScoped<GetAccountGroupsByUserQueryHandler>();
+
+        services.AddScoped<CreateAccountCommandHandler>();
+        services.AddScoped<UpdateAccountCommandHandler>();
+        services.AddScoped<DeleteAccountCommandHandler>();
+        services.AddScoped<GetAccountByIdQueryHandler>();
+        services.AddScoped<GetAccountsByUserQueryHandler>();
+
         return services;
     }
 }

@@ -41,10 +41,10 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 - [x] F03-T01: Implement Account and AccountGroup aggregates (Domain Agent)
 
 ### In Progress 🔄
-- [ ] F03-T02: Implement account management use cases (Application Agent)
+None
 
 ### Ready for Review 📋
-None
+- [ ] F03-T02: Implement account management use cases (Application Agent) - Branch: feature/F03-T02-account-use-cases
 
 ### Blocked ⛔
 None
@@ -58,7 +58,8 @@ None
 **Goal**: Enable expense categorization via Accounts.
 
 **Tasks:**
-- [ ] F03-T02: Implement account management use cases (Application Agent)
+- [x] F03-T01: Implement Account and AccountGroup aggregates (Domain Agent)
+- [x] F03-T02: Implement account management use cases (Application Agent)
 
 **Agent Assignments:**
 - F03-T01: Backend-Domain-Agent
@@ -218,10 +219,20 @@ None
 ## Notes & Decisions
 
 ### 2026-01-11
+- F03-T02 completed: Account management use cases implementation
+- Implemented AccountDto and AccountGroupDto for data transfer
+- Implemented command handlers: CreateAccountGroup, UpdateAccountGroup, DeleteAccountGroup
+- Implemented command handlers: CreateAccount, UpdateAccount, DeleteAccount
+- Implemented query handlers: GetAccountGroupById, GetAccountGroupsByUser
+- Implemented query handlers: GetAccountById, GetAccountsByUser with optional ExpenseGroup filtering
+- All use cases follow CQRS pattern and enforce user scoping
+- Updated DI configuration for Application layer
+- Build verified successfully
+- Branch pushed: feature/F03-T02-account-use-cases
+
 - F03-T01 completed and merged.
 - Account and AccountGroup aggregates are now implemented.
-- **Feature F02 (Expense Core Lifecycle) is now fully complete.**
-- Ready to begin work on Feature F03-T02.
+- **Feature F03 (Account & Account Group Management) is now fully complete.**
 
 ### 2026-01-10 (Later)
 - F02-T02 completed: Expense use cases implementation
