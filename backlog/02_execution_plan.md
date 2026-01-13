@@ -41,12 +41,13 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 - [x] F03-T01: Implement Account and AccountGroup aggregates (Domain Agent)
 - [x] F03-T02: Implement account management use cases (Application Agent)
 - [x] F04-T01: Implement ExpenseInput aggregate (Domain Agent)
+- [x] F04-T02: Implement AI integration interfaces (Application Agent)
 
 ### In Progress 🔄
 None
 
 ### Ready for Review 📋
-None
+- [ ] F04-T02: Implement AI integration interfaces (Application Agent) - Branch: feature/F04-T02-ai-integration-interfaces
 
 ### Blocked ⛔
 None
@@ -60,7 +61,8 @@ None
 **Goal**: Convert unstructured text into proposed Expenses.
 
 **Tasks:**
-- [ ] F04-T02: Implement AI integration interfaces (Application Agent)
+- [x] F04-T01: Implement ExpenseInput aggregate (Domain Agent)
+- [x] F04-T02: Implement AI integration interfaces (Application Agent)
 - [ ] F04-T03: Implement AI service client (Application Agent)
 
 **Agent Assignments:**
@@ -198,7 +200,23 @@ None
 
 ## Notes & Decisions
 
-### 2026-01-11 (Later)
+### 2026-01-13
+- F04-T02 completed: AI integration interfaces implementation
+- Implemented ExpenseProposalDto and AIProposalResponseDto for AI output format
+- Implemented ExpenseInputDto for data transfer with FromDomain mapping
+- Implemented IAIOrchestrationService interface for external AI service integration
+- Implemented ProcessExpenseInputCommand and handler for AI processing workflow orchestration
+- Handler creates ExpenseInput, calls AI service, creates Expense aggregates from proposals
+- Applies confidence threshold (0.87) for auto-confirmation (CONFIRMED vs PENDING_REVIEW)
+- Handles AI failures with error tracking and marks ExpenseInput as ERROR
+- Skips invalid proposals gracefully (continues processing valid ones)
+- Implemented GetExpenseInputByIdQuery and handler with user scoping
+- Implemented GetExpenseInputsByUserQuery and handler with PendingOnly filter
+- Updated DI configuration for Application layer
+- Build verified successfully
+- Branch pushed: feature/F04-T02-ai-integration-interfaces
+
+### 2026-01-11
 - F04-T01 completed and merged.
 - ExpenseInput aggregate is now implemented.
 - Ready to begin work on F04-T02.
