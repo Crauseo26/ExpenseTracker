@@ -27,6 +27,10 @@ public static class ApplicationServiceCollectionExtensions
         services.AddScoped<GetAccountByIdQueryHandler>();
         services.AddScoped<GetAccountsByUserQueryHandler>();
 
+        services.AddScoped<ProcessExpenseInputCommandHandler>();
+        services.AddScoped<GetExpenseInputByIdQueryHandler>();
+        services.AddScoped<GetExpenseInputsByUserQueryHandler>();
+
         return services;
     }
 }
