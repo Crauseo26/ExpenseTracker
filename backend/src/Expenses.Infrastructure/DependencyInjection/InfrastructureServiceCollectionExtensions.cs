@@ -6,6 +6,8 @@ using Expenses.Domain.Aggregates.User;
 using Expenses.Domain.Interfaces;
 using Expenses.Infrastructure.Persistence;
 using Expenses.Infrastructure.Repositories;
+using Expenses.Application.Interfaces;
+using Expenses.Infrastructure.Services.AI;
 
 namespace Expenses.Infrastructure.DependencyInjection;
 
@@ -47,6 +49,8 @@ public static class InfrastructureServiceCollectionExtensions
         .AddDefaultTokenProviders();
 
         services.AddScoped<IUserRepository, UserRepository>();
+
+        services.AddHttpClient<IAIOrchestrationService, AIOrchestrationService>();
 
         return services;
     }
