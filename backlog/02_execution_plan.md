@@ -42,12 +42,14 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 - [x] F03-T02: Implement account management use cases (Application Agent)
 - [x] F04-T01: Implement ExpenseInput aggregate (Domain Agent)
 - [x] F04-T02: Implement AI integration interfaces (Application Agent)
+- [x] F04-T03: Implement AI service client (Infrastructure Agent)
 
 ### In Progress 🔄
 None
 
 ### Ready for Review 📋
 - [ ] F04-T02: Implement AI integration interfaces (Application Agent) - Branch: feature/F04-T02-ai-integration-interfaces
+- [ ] F04-T03: Implement AI service client (Infrastructure Agent) - Branch: feature/F04-T03-ai-client
 
 ### Blocked ⛔
 None
@@ -63,12 +65,12 @@ None
 **Tasks:**
 - [x] F04-T01: Implement ExpenseInput aggregate (Domain Agent)
 - [x] F04-T02: Implement AI integration interfaces (Application Agent)
-- [ ] F04-T03: Implement AI service client (Application Agent)
+- [x] F04-T03: Implement AI service client (Infrastructure Agent)
 
 **Agent Assignments:**
 - F04-T01: Backend-Domain-Agent
 - F04-T02: Backend-Application-Agent
-- F04-T03: Backend-Application-Agent
+- F04-T03: Backend-Infrastructure-Agent
 
 **Dependencies:**
 - F04 depends on F02 (Expense aggregate) and F03 (Account aggregate)
@@ -199,6 +201,21 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-13 (Later)
+- F04-T03 completed: AI service client implementation
+- Implemented AIOrchestrationService in Infrastructure layer
+- Created HTTP contract DTOs (AIProcessingRequest, AIProcessingResponse)
+- Uses IHttpClientFactory with typed client pattern for proper lifecycle management
+- Configured base URL (http://localhost:5000) and timeout (30s) in appsettings.json
+- Comprehensive error handling: connection failures, timeouts, deserialization errors
+- Returns empty proposal list on errors (no exceptions thrown to caller)
+- Extensive logging for debugging and observability
+- Added project reference from Infrastructure to Application layer
+- Registered service in DI container
+- Build verified successfully (0 warnings, 0 errors)
+- Branch pushed: feature/F04-T03-ai-client
+- **Feature F04 (ExpenseInput & AI Processing Pipeline) is now fully complete**
 
 ### 2026-01-13
 - F04-T02 completed: AI integration interfaces implementation
