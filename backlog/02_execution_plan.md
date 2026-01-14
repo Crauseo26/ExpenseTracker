@@ -43,6 +43,7 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 - [x] F04-T01: Implement ExpenseInput aggregate (Domain Agent)
 - [x] F04-T02: Implement AI integration interfaces (Application Agent)
 - [x] F04-T03: Implement AI service client (Infrastructure Agent)
+- [x] F06-T01: Create DbContext and entity configurations (Infrastructure Agent)
 
 ### In Progress 🔄
 None
@@ -57,30 +58,6 @@ None
 ---
 
 ## Pending Tasks (Priority Order) 📝
-
-### Feature 04 — ExpenseInput & AI Processing Pipeline
-
-**Goal**: Convert unstructured text into proposed Expenses.
-
-**Tasks:**
-- [x] F04-T01: Implement ExpenseInput aggregate (Domain Agent)
-- [x] F04-T02: Implement AI integration interfaces (Application Agent)
-- [x] F04-T03: Implement AI service client (Infrastructure Agent)
-
-**Agent Assignments:**
-- F04-T01: Backend-Domain-Agent
-- F04-T02: Backend-Application-Agent
-- F04-T03: Backend-Infrastructure-Agent
-
-**Dependencies:**
-- F04 depends on F02 (Expense aggregate) and F03 (Account aggregate)
-- F04-T02 depends on F04-T01
-- F04-T03 depends on F04-T02
-
-**Parallelization:**
-- Limited (sequential within F04)
-
----
 
 ### Feature 05 — Expense Confirmation Rules
 
@@ -108,7 +85,7 @@ None
 **Goal**: Durable, auditable data storage.
 
 **Tasks:**
-- [ ] F06-T01: Create DbContext and entity configurations (Infrastructure Agent)
+- [x] F06-T01: Create DbContext and entity configurations (Infrastructure Agent)
 - [ ] F06-T02: Implement repositories (Infrastructure Agent)
 - [ ] F06-T03: Create initial migration (Infrastructure Agent)
 
