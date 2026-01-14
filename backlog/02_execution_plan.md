@@ -43,6 +43,7 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 - [x] F04-T01: Implement ExpenseInput aggregate (Domain Agent)
 - [x] F04-T02: Implement AI integration interfaces (Application Agent)
 - [x] F04-T03: Implement AI service client (Infrastructure Agent)
+- [x] F06-T01: Create DbContext and entity configurations (Infrastructure Agent)
 
 ### In Progress 🔄
 None
@@ -50,6 +51,7 @@ None
 ### Ready for Review 📋
 - [ ] F04-T02: Implement AI integration interfaces (Application Agent) - Branch: feature/F04-T02-ai-integration-interfaces
 - [ ] F04-T03: Implement AI service client (Infrastructure Agent) - Branch: feature/F04-T03-ai-client
+- [ ] F06-T01: Create DbContext and entity configurations (Infrastructure Agent) - Branch: feature/F06-T01-persistence-config
 
 ### Blocked ⛔
 None
@@ -108,7 +110,7 @@ None
 **Goal**: Durable, auditable data storage.
 
 **Tasks:**
-- [ ] F06-T01: Create DbContext and entity configurations (Infrastructure Agent)
+- [x] F06-T01: Create DbContext and entity configurations (Infrastructure Agent)
 - [ ] F06-T02: Implement repositories (Infrastructure Agent)
 - [ ] F06-T03: Create initial migration (Infrastructure Agent)
 
@@ -201,6 +203,20 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-13 (Evening)
+- F06-T01 completed: DbContext and entity configurations
+- Created IEntityTypeConfiguration for all domain aggregates:
+  - ExpenseConfiguration: Money value object mapped with OwnsOne, enums as strings, soft delete filter
+  - AccountConfiguration: User scoping, ExpenseGroup FK, soft delete filter
+  - ExpenseGroupConfiguration: User scoping, soft delete filter
+  - ExpenseInputConfiguration: Enums as strings, text columns for content, soft delete filter
+- All configurations registered in AppDbContext.OnModelCreating
+- Indexes configured: UserId on all entities, foreign keys, query columns
+- Soft delete query filters applied globally (DeletedAt == null)
+- Build verified successfully (0 warnings, 0 errors)
+- Branch pushed: feature/F06-T01-persistence-config
+- **Note**: Prioritized F06 (Persistence) over F05 (Confirmation Rules) per user decision
 
 ### 2026-01-13 (Later)
 - F04-T03 completed: AI service client implementation

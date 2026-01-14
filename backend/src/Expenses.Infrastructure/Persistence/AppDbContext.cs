@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Expenses.Domain.Aggregates.User;
+using Expenses.Infrastructure.Persistence.Configurations;
 
 namespace Expenses.Infrastructure.Persistence;
 
@@ -29,5 +30,10 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("user_logins");
         modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("user_tokens");
         modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("role_claims");
+
+        modelBuilder.ApplyConfiguration(new ExpenseConfiguration());
+        modelBuilder.ApplyConfiguration(new AccountConfiguration());
+        modelBuilder.ApplyConfiguration(new ExpenseGroupConfiguration());
+        modelBuilder.ApplyConfiguration(new ExpenseInputConfiguration());
     }
 }
