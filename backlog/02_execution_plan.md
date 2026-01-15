@@ -54,6 +54,7 @@ None
 - [ ] F04-T03: Implement AI service client (Infrastructure Agent) - Branch: feature/F04-T03-ai-client
 - [ ] F06-T01: Create DbContext and entity configurations (Infrastructure Agent) - Branch: feature/F06-T01-persistence-config
 - [ ] F06-T02: Implement repositories (Infrastructure Agent) - Branch: feature/F06-T02-repositories
+- [ ] F06-T03: Create initial migration (Infrastructure Agent) - Branch: feature/F06-T03-initial-migration
 
 ### Blocked ⛔
 None
@@ -181,6 +182,20 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-15 (Evening)
+- F06-T03 completed: Initial database migration
+- Generated EF Core migration named "InitialCreate" using dotnet ef migrations add
+- Added Microsoft.EntityFrameworkCore.Design (v9.0.0) to Expenses.Api project (required for EF tools)
+- Migration files created in Persistence/Migrations directory:
+  - 20260115225635_InitialCreate.cs (Up/Down methods)
+  - 20260115225635_InitialCreate.Designer.cs (metadata)
+  - AppDbContextModelSnapshot.cs (model snapshot)
+- Migration includes all domain tables: Accounts, ExpenseGroups, ExpenseInputs, Expenses, Identity tables
+- All entity configurations, indexes, and constraints properly reflected
+- Build verified successfully (0 warnings, 0 errors)
+- Branch pushed: feature/F06-T03-initial-migration
+- **Feature F06 (Persistence & Migrations) is now fully complete**
 
 ### 2026-01-14 (Evening)
 - F06-T02 completed: Repository implementations
