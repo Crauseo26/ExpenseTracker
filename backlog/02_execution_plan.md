@@ -53,6 +53,7 @@ None
 ### Ready for Review 📋
 - [ ] F04-T02: Implement AI integration interfaces (Application Agent) - Branch: feature/F04-T02-ai-integration-interfaces
 - [ ] F04-T03: Implement AI service client (Infrastructure Agent) - Branch: feature/F04-T03-ai-client
+- [ ] F05-T01: Implement confidence scoring logic (Domain Agent) - Branch: feature/F05-T01-confidence-logic
 - [ ] F06-T01: Create DbContext and entity configurations (Infrastructure Agent) - Branch: feature/F06-T01-persistence-config
 - [ ] F06-T02: Implement repositories (Infrastructure Agent) - Branch: feature/F06-T02-repositories
 
@@ -68,7 +69,7 @@ None
 **Goal**: Automate or defer confirmation based on confidence.
 
 **Tasks:**
-- [ ] F05-T01: Implement confidence scoring logic (Domain Agent)
+- [x] F05-T01: Implement confidence scoring logic (Domain Agent)
 - [ ] F05-T02: Implement confirmation workflow (Application Agent)
 
 **Agent Assignments:**
@@ -182,6 +183,21 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-15 (Late Evening)
+- F05-T01 completed: Confidence scoring logic implementation
+- Implemented ConfidenceScore value object with range validation (0.0-1.0)
+- Implemented ConfidenceThresholdPolicy domain service with default threshold of 0.87
+- Updated Expense.CreateFromAI to use ConfidenceScore and ConfidenceThresholdPolicy
+- Updated ProcessExpenseInputCommandHandler to use new confidence types
+- Added error codes for confidence validation (DOM6001)
+- Created Expenses.Domain.Tests project with comprehensive unit tests:
+  - ConfidenceScoreTests: 13 tests covering validation, conversion, and equality
+  - ConfidenceThresholdPolicyTests: 10 tests covering default/custom thresholds and decisions
+  - ExpenseConfidenceTests: 6 tests covering AI expense creation with various confidence levels
+- All 44 tests passing successfully
+- Build verified successfully (0 warnings, 0 errors)
+- Branch pushed: feature/F05-T01-confidence-logic
 
 ### 2026-01-15 (Evening)
 - F06-T03 completed: Initial database migration
