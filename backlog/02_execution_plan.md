@@ -45,6 +45,7 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 - [x] F04-T03: Implement AI service client (Infrastructure Agent)
 - [x] F06-T01: Create DbContext and entity configurations (Infrastructure Agent)
 - [x] F06-T02: Implement repositories (Infrastructure Agent)
+- [x] F06-T03: Create initial migration (Infrastructure Agent)
 
 ### In Progress 🔄
 None
@@ -54,7 +55,6 @@ None
 - [ ] F04-T03: Implement AI service client (Infrastructure Agent) - Branch: feature/F04-T03-ai-client
 - [ ] F06-T01: Create DbContext and entity configurations (Infrastructure Agent) - Branch: feature/F06-T01-persistence-config
 - [ ] F06-T02: Implement repositories (Infrastructure Agent) - Branch: feature/F06-T02-repositories
-- [ ] F06-T03: Create initial migration (Infrastructure Agent) - Branch: feature/F06-T03-initial-migration
 
 ### Blocked ⛔
 None
@@ -91,7 +91,7 @@ None
 **Tasks:**
 - [x] F06-T01: Create DbContext and entity configurations (Infrastructure Agent)
 - [x] F06-T02: Implement repositories (Infrastructure Agent)
-- [ ] F06-T03: Create initial migration (Infrastructure Agent)
+- [x] F06-T03: Create initial migration (Infrastructure Agent)
 
 **Agent Assignments:**
 - F06-T01: Backend-Infrastructure-Agent
