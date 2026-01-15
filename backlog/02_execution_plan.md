@@ -44,6 +44,7 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 - [x] F04-T02: Implement AI integration interfaces (Application Agent)
 - [x] F04-T03: Implement AI service client (Infrastructure Agent)
 - [x] F06-T01: Create DbContext and entity configurations (Infrastructure Agent)
+- [x] F06-T02: Implement repositories (Infrastructure Agent)
 
 ### In Progress 🔄
 None
@@ -52,6 +53,7 @@ None
 - [ ] F04-T02: Implement AI integration interfaces (Application Agent) - Branch: feature/F04-T02-ai-integration-interfaces
 - [ ] F04-T03: Implement AI service client (Infrastructure Agent) - Branch: feature/F04-T03-ai-client
 - [ ] F06-T01: Create DbContext and entity configurations (Infrastructure Agent) - Branch: feature/F06-T01-persistence-config
+- [ ] F06-T02: Implement repositories (Infrastructure Agent) - Branch: feature/F06-T02-repositories
 
 ### Blocked ⛔
 None
@@ -87,7 +89,7 @@ None
 
 **Tasks:**
 - [x] F06-T01: Create DbContext and entity configurations (Infrastructure Agent)
-- [ ] F06-T02: Implement repositories (Infrastructure Agent)
+- [x] F06-T02: Implement repositories (Infrastructure Agent)
 - [ ] F06-T03: Create initial migration (Infrastructure Agent)
 
 **Agent Assignments:**
@@ -179,6 +181,22 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-14 (Evening)
+- F06-T02 completed: Repository implementations
+- Implemented ExpenseRepository with user scoping and date range filtering
+- Implemented AccountRepository with ExpenseGroup filtering
+- Implemented ExpenseGroupRepository with user scoping
+- Implemented ExpenseInputRepository with pending status filtering
+- All repositories follow EF Core best practices:
+  - User scoping enforced in all queries
+  - Soft delete handled via Update (aggregates manage DeletedAt)
+  - Async/await throughout
+  - SaveChanges called after mutations
+  - Proper ordering (PurchaseDate desc, CreatedAt desc, Name asc)
+- Registered all repositories in DI container with Scoped lifetime
+- Build verified successfully (0 warnings, 0 errors)
+- Branch pushed: feature/F06-T02-repositories
 
 ### 2026-01-13 (Evening)
 - F06-T01 completed: DbContext and entity configurations

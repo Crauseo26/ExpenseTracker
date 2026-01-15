@@ -49,6 +49,10 @@ public static class InfrastructureServiceCollectionExtensions
         .AddDefaultTokenProviders();
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IExpenseRepository, ExpenseRepository>();
+        services.AddScoped<IAccountRepository, AccountRepository>();
+        services.AddScoped<IExpenseGroupRepository, ExpenseGroupRepository>();
+        services.AddScoped<IExpenseInputRepository, ExpenseInputRepository>();
 
         services.AddHttpClient<IAIOrchestrationService, AIOrchestrationService>();
 
