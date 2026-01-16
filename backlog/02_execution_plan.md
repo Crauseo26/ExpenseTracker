@@ -59,6 +59,7 @@ None
 - [ ] F06-T02: Implement repositories (Infrastructure Agent) - Branch: feature/F06-T02-repositories
 - [ ] F07-T01: Implement Expense CRUD endpoints (API Agent) - Branch: feature/F07-T01-expense-crud-endpoints
 - [ ] F07-T02: Implement ExpenseInput submission endpoint (API Agent) - Branch: feature/F07-T02-expense-input-endpoint
+- [ ] F07-T03: Implement query endpoints with filters (API Agent) - Branch: feature/F07-T03-query-endpoints
 
 ### Blocked ⛔
 None
@@ -186,6 +187,31 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-16 (Evening)
+- F07-T03 completed: Account and AccountGroup CRUD endpoints implementation
+- Implemented AccountsController with full CRUD operations:
+  - POST /api/accounts - Create account
+  - GET /api/accounts/{id} - Get account by ID with user scoping
+  - GET /api/accounts - Get accounts with optional expenseGroupId filter
+  - PUT /api/accounts/{id} - Update account
+  - DELETE /api/accounts/{id} - Soft delete account
+- Implemented AccountGroupsController with full CRUD operations:
+  - POST /api/account-groups - Create account group
+  - GET /api/account-groups/{id} - Get account group by ID with user scoping
+  - GET /api/account-groups - Get all account groups for user
+  - PUT /api/account-groups/{id} - Update account group
+  - DELETE /api/account-groups/{id} - Soft delete account group
+- Created API request DTOs:
+  - CreateAccountRequest (Name, ExpenseGroupId)
+  - UpdateAccountRequest (Name, ExpenseGroupId)
+  - CreateAccountGroupRequest (Name)
+  - UpdateAccountGroupRequest (Name)
+- All endpoints require JWT authentication and extract UserId from claims
+- All 54 tests passing (43 domain + 11 application)
+- Build verified successfully (0 warnings, 0 errors)
+- Branch pushed: feature/F07-T03-query-endpoints
+- **Feature F07 (API Endpoints MVP) is now fully complete**
 
 ### 2026-01-16 (Late Afternoon)
 - F07-T02 completed: ExpenseInput submission endpoint implementation
