@@ -1,4 +1,5 @@
 using Expenses.Domain.Exceptions;
+using Expenses.Domain.Services;
 using Expenses.Domain.ValueObjects;
 
 namespace Expenses.Domain.Aggregates.Expense;
@@ -59,12 +60,13 @@ public class Expense
         ExpenseType expenseType,
         DateTime purchaseDate,
         Guid expenseInputId,
-        double confidenceScore,
-        double confidenceThreshold = 0.87)
+        ConfidenceScore confidenceScore,
+        ConfidenceThresholdPolicy? thresholdPolicy = null)
     {
         ValidateCreationParameters(userId, accountId, description);
 
-        var status = confidenceScore >= confidenceThreshold
+        var policy = thresholdPolicy ?? new ConfidenceThresholdPolicy();
+        var status = policy.ShouldAutoConfirm(confidenceScore)
             ? ExpenseStatus.Confirmed
             : ExpenseStatus.PendingReview;
 

@@ -4,6 +4,7 @@ using Expenses.Domain.Aggregates.Expense;
 using Expenses.Domain.Aggregates.ExpenseInput;
 using Expenses.Domain.Exceptions;
 using Expenses.Domain.Interfaces;
+using Expenses.Domain.Services;
 using Expenses.Domain.ValueObjects;
 
 namespace Expenses.Application.Commands;
@@ -13,7 +14,7 @@ public class ProcessExpenseInputCommandHandler
     private readonly IExpenseInputRepository _expenseInputRepository;
     private readonly IExpenseRepository _expenseRepository;
     private readonly IAIOrchestrationService _aiOrchestrationService;
-    private const double ConfidenceThreshold = 0.87;
+    private readonly ConfidenceThresholdPolicy _confidencePolicy;
 
     public ProcessExpenseInputCommandHandler(
         IExpenseInputRepository expenseInputRepository,
@@ -23,6 +24,7 @@ public class ProcessExpenseInputCommandHandler
         _expenseInputRepository = expenseInputRepository;
         _expenseRepository = expenseRepository;
         _aiOrchestrationService = aiOrchestrationService;
+        _confidencePolicy = new ConfidenceThresholdPolicy();
     }
 
     public async Task<ProcessExpenseInputResult> HandleAsync(
@@ -85,6 +87,7 @@ public class ProcessExpenseInputCommandHandler
                     }
 
                     var money = new Money(proposal.Amount, currency);
+                    var confidenceScore = new ConfidenceScore(proposal.Confidence);
                     var expense = Expense.CreateFromAI(
                         command.UserId,
                         proposal.AccountId,
@@ -93,8 +96,8 @@ public class ProcessExpenseInputCommandHandler
                         expenseType,
                         proposal.PurchaseDate,
                         expenseInput.Id,
-                        proposal.Confidence,
-                        ConfidenceThreshold);
+                        confidenceScore,
+                        _confidencePolicy);
 
                     await _expenseRepository.AddAsync(expense, cancellationToken);
                     createdExpenses.Add(ExpenseDto.FromDomain(expense));

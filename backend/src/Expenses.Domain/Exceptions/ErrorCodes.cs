@@ -42,4 +42,10 @@ public static class ErrorCodes
         public const string CannotMarkDeletedAsError = "DOM5012";
         public const string AlreadyDeleted = "DOM5013";
     }
+
+    // Confidence errors: 6xxx
+    public static class Confidence
+    {
+        public const string InvalidScore = "DOM6001";
+    }
 }
