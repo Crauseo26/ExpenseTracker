@@ -57,6 +57,7 @@ None
 - [ ] F05-T02: Implement confirmation workflow (Application Agent) - Branch: feature/F05-T02-confirmation-workflow
 - [ ] F06-T01: Create DbContext and entity configurations (Infrastructure Agent) - Branch: feature/F06-T01-persistence-config
 - [ ] F06-T02: Implement repositories (Infrastructure Agent) - Branch: feature/F06-T02-repositories
+- [ ] F07-T01: Implement Expense CRUD endpoints (API Agent) - Branch: feature/F07-T01-expense-crud-endpoints
 
 ### Blocked ⛔
 None
@@ -184,6 +185,26 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-16 (Afternoon)
+- F07-T01 completed: Expense CRUD endpoints implementation
+- Implemented ExpensesController with full CRUD operations:
+  - POST /api/expenses - Create manual expense (confirmed)
+  - GET /api/expenses/{id} - Get expense by ID with user scoping
+  - GET /api/expenses - Get expenses with optional date filters
+  - PUT /api/expenses/{id} - Update expense
+  - POST /api/expenses/{id}/confirm - Confirm pending expense
+  - DELETE /api/expenses/{id} - Soft delete expense
+- Created API request/response DTOs:
+  - CreateExpenseRequest
+  - UpdateExpenseRequest
+  - ErrorResponse
+- All endpoints require JWT authentication and extract UserId from claims
+- Proper HTTP status codes: 200, 201, 204, 400, 401, 404
+- Registered Application layer in DI container (Program.cs)
+- All 54 tests passing (43 domain + 11 application)
+- Build verified successfully (0 warnings, 0 errors)
+- Branch pushed: feature/F07-T01-expense-crud-endpoints
 
 ### 2026-01-15 (Night)
 - F05-T02 completed: Confirmation workflow implementation
