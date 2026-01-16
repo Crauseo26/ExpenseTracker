@@ -54,6 +54,7 @@ None
 - [ ] F04-T02: Implement AI integration interfaces (Application Agent) - Branch: feature/F04-T02-ai-integration-interfaces
 - [ ] F04-T03: Implement AI service client (Infrastructure Agent) - Branch: feature/F04-T03-ai-client
 - [ ] F05-T01: Implement confidence scoring logic (Domain Agent) - Branch: feature/F05-T01-confidence-logic
+- [ ] F05-T02: Implement confirmation workflow (Application Agent) - Branch: feature/F05-T02-confirmation-workflow
 - [ ] F06-T01: Create DbContext and entity configurations (Infrastructure Agent) - Branch: feature/F06-T01-persistence-config
 - [ ] F06-T02: Implement repositories (Infrastructure Agent) - Branch: feature/F06-T02-repositories
 
@@ -70,7 +71,7 @@ None
 
 **Tasks:**
 - [x] F05-T01: Implement confidence scoring logic (Domain Agent)
-- [ ] F05-T02: Implement confirmation workflow (Application Agent)
+- [x] F05-T02: Implement confirmation workflow (Application Agent)
 
 **Agent Assignments:**
 - F05-T01: Backend-Domain-Agent
@@ -183,6 +184,27 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-15 (Night)
+- F05-T02 completed: Confirmation workflow implementation
+- Registered ConfidenceThresholdPolicy in DI container as Singleton
+- Refactored ProcessExpenseInputCommandHandler to inject ConfidenceThresholdPolicy via constructor
+- Verified ConfirmExpenseCommandHandler and UpdateExpenseCommandHandler handle state transitions correctly
+- Created Expenses.Application.Tests project with xUnit and Moq (v4.20.72)
+- Implemented comprehensive tests for ProcessExpenseInputCommandHandler (8 tests):
+  - High/low/exact threshold confidence scenarios
+  - AI failure handling with ExpenseInput marked as ERROR
+  - Multiple proposals creating multiple expenses
+  - Invalid input type/currency validation
+- Implemented comprehensive tests for ConfirmExpenseCommandHandler (4 tests):
+  - Pending to confirmed transition
+  - Already confirmed expense handling
+  - Non-existent expense error handling
+  - Deleted expense domain error handling
+- All 54 tests passing (43 domain + 11 application)
+- Build verified successfully (0 warnings, 0 errors)
+- Branch pushed: feature/F05-T02-confirmation-workflow
+- **Feature F05 (Expense Confirmation Rules) is now fully complete**
 
 ### 2026-01-15 (Late Evening)
 - F05-T01 completed: Confidence scoring logic implementation
