@@ -19,12 +19,13 @@ public class ProcessExpenseInputCommandHandler
     public ProcessExpenseInputCommandHandler(
         IExpenseInputRepository expenseInputRepository,
         IExpenseRepository expenseRepository,
-        IAIOrchestrationService aiOrchestrationService)
+        IAIOrchestrationService aiOrchestrationService,
+        ConfidenceThresholdPolicy confidencePolicy)
     {
         _expenseInputRepository = expenseInputRepository;
         _expenseRepository = expenseRepository;
         _aiOrchestrationService = aiOrchestrationService;
-        _confidencePolicy = new ConfidenceThresholdPolicy();
+        _confidencePolicy = confidencePolicy;
     }
 
     public async Task<ProcessExpenseInputResult> HandleAsync(
