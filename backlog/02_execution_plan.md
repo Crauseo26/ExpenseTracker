@@ -58,6 +58,7 @@ None
 - [ ] F06-T01: Create DbContext and entity configurations (Infrastructure Agent) - Branch: feature/F06-T01-persistence-config
 - [ ] F06-T02: Implement repositories (Infrastructure Agent) - Branch: feature/F06-T02-repositories
 - [ ] F07-T01: Implement Expense CRUD endpoints (API Agent) - Branch: feature/F07-T01-expense-crud-endpoints
+- [ ] F07-T02: Implement ExpenseInput submission endpoint (API Agent) - Branch: feature/F07-T02-expense-input-endpoint
 
 ### Blocked ⛔
 None
@@ -185,6 +186,25 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-16 (Late Afternoon)
+- F07-T02 completed: ExpenseInput submission endpoint implementation
+- Implemented ExpenseInputsController with AI processing workflow:
+  - POST /api/expense-inputs/text - Process text input with AI orchestration
+  - GET /api/expense-inputs/{id} - Get expense input by ID with user scoping
+  - GET /api/expense-inputs - Get expense inputs with optional pendingOnly filter
+- Created API request/response DTOs:
+  - ProcessExpenseInputRequest (InputType, RawContent)
+  - ProcessExpenseInputResponse (ExpenseInput, CreatedExpenses)
+- Synchronous AI processing flow:
+  - Creates ExpenseInput aggregate
+  - Calls AI Orchestration Service via ProcessExpenseInputCommandHandler
+  - Applies confidence threshold (0.87) for auto-confirmation
+  - Returns ExpenseInput with status (PROCESSED/ERROR) and created Expenses
+- All endpoints require JWT authentication and extract UserId from claims
+- All 54 tests passing (43 domain + 11 application)
+- Build verified successfully (0 warnings, 0 errors)
+- Branch pushed: feature/F07-T02-expense-input-endpoint
 
 ### 2026-01-16 (Afternoon)
 - F07-T01 completed: Expense CRUD endpoints implementation
