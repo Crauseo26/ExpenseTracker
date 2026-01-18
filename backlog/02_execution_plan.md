@@ -13,9 +13,9 @@ This document is **managed by the Lead Agent** and updated after each merge.
 ---
 
 ## Current Phase
-**Phase 1 — Backend Core**
+**Phase 2 — AI Service Integration**
 
-Target: Implement domain, application, infrastructure, and API layers for MVP features.
+Target: Implement the Python-based AI service to handle unstructured data extraction.
 
 ---
 
@@ -46,17 +46,14 @@ Target: Implement domain, application, infrastructure, and API layers for MVP fe
 - [x] F06-T01: Create DbContext and entity configurations (Infrastructure Agent)
 - [x] F06-T02: Implement repositories (Infrastructure Agent)
 - [x] F06-T03: Create initial migration (Infrastructure Agent)
+- [x] F08-T01: Add unit tests for domain (Application Agent)
+- [x] F08-T02: Add integration tests for API (Application Agent)
+- [x] F08-T03: Configure CI pipeline (Manual / DevOps)
 
 ### In Progress 🔄
 None
 
 ### Ready for Review 📋
-- [ ] F04-T02: Implement AI integration interfaces (Application Agent) - Branch: feature/F04-T02-ai-integration-interfaces
-- [ ] F04-T03: Implement AI service client (Infrastructure Agent) - Branch: feature/F04-T03-ai-client
-- [ ] F05-T01: Implement confidence scoring logic (Domain Agent) - Branch: feature/F05-T01-confidence-logic
-- [ ] F05-T02: Implement confirmation workflow (Application Agent) - Branch: feature/F05-T02-confirmation-workflow
-- [ ] F06-T01: Create DbContext and entity configurations (Infrastructure Agent) - Branch: feature/F06-T01-persistence-config
-- [ ] F06-T02: Implement repositories (Infrastructure Agent) - Branch: feature/F06-T02-repositories
 - [ ] F07-T01: Implement Expense CRUD endpoints (API Agent) - Branch: feature/F07-T01-expense-crud-endpoints
 - [ ] F07-T02: Implement ExpenseInput submission endpoint (API Agent) - Branch: feature/F07-T02-expense-input-endpoint
 - [ ] F07-T03: Implement query endpoints with filters (API Agent) - Branch: feature/F07-T03-query-endpoints
@@ -68,77 +65,25 @@ None
 
 ## Pending Tasks (Priority Order) 📝
 
-### Feature 05 — Expense Confirmation Rules
+### Feature 09 — AI Service Implementation (Python)
 
-**Goal**: Automate or defer confirmation based on confidence.
-
-**Tasks:**
-- [x] F05-T01: Implement confidence scoring logic (Domain Agent)
-- [x] F05-T02: Implement confirmation workflow (Application Agent)
-
-**Agent Assignments:**
-- F05-T01: Backend-Domain-Agent
-- F05-T02: Backend-Application-Agent
-
-**Dependencies:**
-- F05 depends on F04 (AI pipeline must exist)
-- F05-T02 depends on F05-T01
-
-**Parallelization:**
-- None (sequential)
-
----
-
-### Feature 06 — Persistence & Migrations
-
-**Goal**: Durable, auditable data storage.
+**Goal**: Build the stateless service that parses unstructured text into expense proposals.
 
 **Tasks:**
-- [x] F06-T01: Create DbContext and entity configurations (Infrastructure Agent)
-- [x] F06-T02: Implement repositories (Infrastructure Agent)
-- [x] F06-T03: Create initial migration (Infrastructure Agent)
+- [ ] F09-T01: Setup Python project structure and FastAPI skeleton (AI Agent)
+- [ ] F09-T02: Implement LLM orchestration and system prompt (AI Agent)
+- [ ] F09-T03: Implement JSON extraction and confidence scoring (AI Agent)
+- [ ] F09-T04: Implementation of /process-text and /health endpoints (AI Agent)
 
 **Agent Assignments:**
-- F06-T01: Backend-Infrastructure-Agent
-- F06-T02: Backend-Infrastructure-Agent
-- F06-T03: Backend-Infrastructure-Agent
+- AI-Python-Agent
 
 **Dependencies:**
-- F06 depends on all Domain work (F01-T01, F02-T01, F03-T01, F04-T01, F05-T01)
-- F06-T02 depends on F06-T01
-- F06-T03 depends on F06-T02
-
-**Parallelization:**
-- F06 can start once all domain aggregates are defined
-- Tasks within F06 are sequential
+- F09 depends on `specs/15_ai_service_api_contract.md`
 
 ---
 
 ### Feature 07 — API Endpoints (MVP)
-
-**Goal**: Expose backend capabilities.
-
-**Tasks:**
-- [ ] F07-T01: Implement Expense CRUD endpoints (API Agent)
-- [ ] F07-T02: Implement ExpenseInput submission endpoint (API Agent)
-- [ ] F07-T03: Implement query endpoints with filters (API Agent)
-
-**Agent Assignments:**
-- F07-T01: Backend-API-Agent
-- F07-T02: Backend-API-Agent
-- F07-T03: Backend-API-Agent
-
-**Dependencies:**
-- F07 depends on F06 (persistence must exist) and all Application use cases
-- F07-T02 depends on F07-T01
-- F07-T03 depends on F07-T01
-
-**Parallelization:**
-- F07-T02 and F07-T03 can run in parallel after F07-T01
-
----
-
-### Feature 08 — Build, Tests & Validation
 
 **Goal**: Ensure production readiness.
 

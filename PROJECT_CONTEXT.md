@@ -434,13 +434,13 @@ This section documents important decisions and their rationale. **Do not revisit
 
 ## Current Focus
 
-**Active Phase:** Phase 5 - Scale & Parallelize
+**Active Phase:** Phase 6 - Build, Tests & Validation
 
-**Current Task:** Prepare for F07-T01: Implement Expense CRUD endpoints
+**Current Task:** Perform final MVP Backend Review and prepare for Mobile App development.
 
 **What Needs to Happen:**
-1. Guide human to kick off Lead Agent for F07-T01.
-2. Monitor and validate agent execution of F07-T01.
+1. Guide human to review and merge Feature F08.
+2. Verify system readiness for mobile integration.
 
 ---
 
