@@ -51,7 +51,7 @@ Target: Implement the Python-based AI service to handle unstructured data extrac
 - [x] F08-T03: Configure CI pipeline (Manual / DevOps)
 
 ### In Progress 🔄
-None
+- [ ] F09-T01: Setup Python project structure and FastAPI skeleton (AI Agent) - Branch: feature/F09-T01-ai-service-setup
 
 ### Ready for Review 📋
 - [ ] F07-T01: Implement Expense CRUD endpoints (API Agent) - Branch: feature/F07-T01-expense-crud-endpoints
