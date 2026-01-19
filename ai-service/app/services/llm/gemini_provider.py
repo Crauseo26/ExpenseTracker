@@ -7,6 +7,7 @@ from google.genai import types
 
 from .base_provider import BaseLLMProvider
 from .prompts import build_system_prompt, build_user_prompt
+from ..refinement import refine_and_filter
 
 
 class GeminiLLMProvider(BaseLLMProvider):
@@ -65,25 +66,8 @@ class GeminiLLMProvider(BaseLLMProvider):
                 if "proposals" not in result:
                     result = {"proposals": []}
                 
-                for proposal in result.get("proposals", []):
-                    if "purchaseDate" in proposal:
-                        try:
-                            datetime.strptime(proposal["purchaseDate"], "%Y-%m-%d")
-                        except ValueError:
-                            proposal["purchaseDate"] = datetime.now().strftime("%Y-%m-%d")
-                    else:
-                        proposal["purchaseDate"] = datetime.now().strftime("%Y-%m-%d")
-                    
-                    if "confidence" not in proposal:
-                        proposal["confidence"] = 0.5
-                    
-                    proposal["confidence"] = max(0.0, min(1.0, proposal["confidence"]))
-                    
-                    if "currency" not in proposal:
-                        proposal["currency"] = "UYU"
-                    
-                    if "expenseType" not in proposal:
-                        proposal["expenseType"] = "SPORADIC"
+                refined_proposals = refine_and_filter(result.get("proposals", []), raw_text)
+                result["proposals"] = refined_proposals
                 
                 return result
                 

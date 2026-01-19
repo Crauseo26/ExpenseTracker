@@ -41,25 +41,29 @@ You are working with an expense tracking system where:
 
 Your task is to analyze the provided text and extract expense information with the following details:
 - **description**: A clean, human-readable description of the expense (e.g., "McDonald's" instead of "MCDONALDS STORE #1234")
-- **amount**: The numerical amount of the expense (must be >= 0)
-- **currency**: Either "UYU" or "USD" (default to "UYU" if not explicitly mentioned)
-- **purchaseDate**: The date of purchase in YYYY-MM-DD format (use current date if not found)
-- **expenseType**: Either "SPORADIC" for one-time expenses or "REPETITIVE" for recurring expenses
-- **confidence**: A score between 0.0 and 1.0 indicating your confidence in the extraction
+- **amount**: The numerical amount of the expense. If you cannot find a clear amount, use 0 (zero)
+- **currency**: Either "UYU", "USD", or "UNKNOWN". Only use UYU/USD if explicitly mentioned or clearly implied. If uncertain, use "UNKNOWN"
+- **purchaseDate**: The date of purchase in YYYY-MM-DD format. Only include if you find a date in the text. If no date is found, omit this field
+- **expenseType**: Either "SPORADIC" for one-time expenses, "REPETITIVE" for recurring expenses, or "UNKNOWN" if you cannot determine
 - **metadata**: Optional object containing:
   - **merchant**: The merchant or vendor name
   - **rawExtraction**: The original text snippet used for extraction
   - **suggestedAccount**: (Optional) The suggested Account category name if a match is found from the available accounts
 {accounts_section}
 
-**Important Guidelines:**
-1. You can extract multiple expenses from a single text if present
-2. Be conservative with confidence scores - only use high scores (>0.8) when you're very certain
+**CRITICAL RULES - BE HONEST:**
+1. DO NOT GUESS. If you are uncertain about a value, use the appropriate default:
+   - Amount: 0
+   - Currency: "UNKNOWN"
+   - ExpenseType: "UNKNOWN"
+   - PurchaseDate: omit the field entirely
+2. You can extract multiple expenses from a single text if present
 3. Clean up merchant names and descriptions to be user-friendly
 4. If the text doesn't contain clear expense information, return an empty proposals array
 5. For dates, if only day/month is mentioned, assume the current year
 6. Detect repetitive expenses based on keywords like "monthly", "subscription", "recurring", etc.
 7. When available Accounts are provided, try to suggest the most appropriate category based on the expense context
+8. DO NOT generate a confidence score - the system will calculate it based on data completeness
 
 **Output Format:**
 You must respond with a valid JSON object matching this exact structure:
@@ -68,10 +72,9 @@ You must respond with a valid JSON object matching this exact structure:
     {{
       "description": "string",
       "amount": 0.0,
-      "currency": "UYU",
-      "purchaseDate": "YYYY-MM-DD",
-      "expenseType": "SPORADIC",
-      "confidence": 0.0,
+      "currency": "UYU | USD | UNKNOWN",
+      "purchaseDate": "YYYY-MM-DD (optional - omit if not found)",
+      "expenseType": "SPORADIC | REPETITIVE | UNKNOWN",
       "metadata": {{
         "merchant": "string",
         "rawExtraction": "string",
