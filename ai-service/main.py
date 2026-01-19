@@ -3,6 +3,10 @@ from pydantic import BaseModel, Field, field_validator
 from typing import List, Optional, Dict, Any
 from datetime import datetime
 from enum import Enum
+from dotenv import load_dotenv
+from app.services.llm import get_llm_provider
+
+load_dotenv()
 
 app = FastAPI(
     title="FinancIA AI Service",
@@ -30,6 +34,7 @@ class ExpenseType(str, Enum):
 class ProcessTextRequest(BaseModel):
     rawText: str = Field(..., description="Raw text input to process")
     inputType: InputType = Field(..., description="Type of input")
+    availableAccounts: Optional[List[str]] = Field(default=None, description="List of available account names for matching")
     metadata: Optional[Dict[str, Any]] = Field(default=None, description="Optional metadata")
 
     @field_validator('rawText')
@@ -43,6 +48,7 @@ class ProcessTextRequest(BaseModel):
 class ExpenseProposalMetadata(BaseModel):
     merchant: Optional[str] = Field(default=None, description="Detected merchant name")
     rawExtraction: Optional[str] = Field(default=None, description="Raw extracted text")
+    suggestedAccount: Optional[str] = Field(default=None, description="Suggested account category from available accounts")
 
 
 class ExpenseProposal(BaseModel):
@@ -88,19 +94,42 @@ async def health_check():
 async def process_text(request: ProcessTextRequest):
     """
     Process raw text input and extract structured expense proposals.
-    
-    This is a placeholder implementation that will be replaced with actual AI processing logic.
     """
     try:
         start_time = datetime.now()
         
-        # Placeholder implementation
-        # TODO: Implement actual AI processing logic with LLM orchestration
-        proposals = []
-        overall_confidence = 0.0
+        llm_provider = get_llm_provider()
         
-        # For now, return empty proposals to indicate the endpoint is functional
-        # but not yet implemented
+        result = await llm_provider.extract_expenses(
+            raw_text=request.rawText,
+            input_type=request.inputType.value,
+            available_accounts=request.availableAccounts,
+            metadata=request.metadata
+        )
+        
+        proposals = []
+        for proposal_data in result.get("proposals", []):
+            try:
+                proposal = ExpenseProposal(
+                    description=proposal_data.get("description", "Unknown expense"),
+                    amount=float(proposal_data.get("amount", 0.0)),
+                    currency=Currency(proposal_data.get("currency", "UYU")),
+                    purchaseDate=proposal_data.get("purchaseDate", datetime.now().strftime("%Y-%m-%d")),
+                    expenseType=ExpenseType(proposal_data.get("expenseType", "SPORADIC")),
+                    confidence=float(proposal_data.get("confidence", 0.0)),
+                    metadata=ExpenseProposalMetadata(
+                        merchant=proposal_data.get("metadata", {}).get("merchant"),
+                        rawExtraction=proposal_data.get("metadata", {}).get("rawExtraction"),
+                        suggestedAccount=proposal_data.get("metadata", {}).get("suggestedAccount")
+                    ) if proposal_data.get("metadata") else None
+                )
+                proposals.append(proposal)
+            except Exception as e:
+                continue
+        
+        overall_confidence = 0.0
+        if proposals:
+            overall_confidence = sum(p.confidence for p in proposals) / len(proposals)
         
         end_time = datetime.now()
         processing_time_ms = int((end_time - start_time).total_seconds() * 1000)
