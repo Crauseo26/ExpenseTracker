@@ -39,8 +39,8 @@ def test_calculate_confidence():
         "purchaseDate": "2026-01-19"
     }
     score = calculate_confidence(proposal_generic, was_date_inferred=True)
-    print(f"Generic 'Gasto' + inferred date: {score} (expected: 0.80)")
-    assert abs(score - 0.80) < 0.001, f"Expected 0.80 (1.0 - 0.15 - 0.05), got {score}"
+    print(f"Generic 'Gasto' + inferred date: {score} (expected: 0.90)")
+    assert abs(score - 0.90) < 0.001, f"Expected 0.90 (1.0 - 0.05 - 0.05), got {score}"
     
     # Test 4: Short description + inferred date
     proposal_short = {
@@ -112,8 +112,8 @@ def test_calculate_confidence():
             "purchaseDate": "2026-01-15"
         }
         score = calculate_confidence(proposal_blacklist, was_date_inferred=False)
-        print(f"  Blacklist word '{word}': {score} (expected: 0.85)")
-        assert score == 0.85, f"Expected 0.85 for '{word}', got {score}"
+        print(f"  Blacklist word '{word}': {score} (expected: 0.95)")
+        assert score == 0.95, f"Expected 0.95 for '{word}', got {score}"
     
     # Test 10: Case insensitive blacklist check
     proposal_upper = {
@@ -124,8 +124,8 @@ def test_calculate_confidence():
         "purchaseDate": "2026-01-15"
     }
     score = calculate_confidence(proposal_upper, was_date_inferred=False)
-    print(f"Uppercase 'GASTO': {score} (expected: 0.85)")
-    assert score == 0.85, f"Expected 0.85, got {score}"
+    print(f"Uppercase 'GASTO': {score} (expected: 0.95)")
+    assert score == 0.95, f"Expected 0.95, got {score}"
     
     # Test 11: Multiple penalties
     proposal_multiple = {
@@ -136,9 +136,9 @@ def test_calculate_confidence():
         "purchaseDate": "2026-01-19"
     }
     score = calculate_confidence(proposal_multiple, was_date_inferred=True)
-    expected = 1.0 - 0.25 - 0.25 - 0.25 - 0.05 - 0.15
+    expected = 1.0 - 0.25 - 0.25 - 0.25 - 0.05 - 0.05
     print(f"Multiple penalties: {score} (expected: {expected})")
-    assert score == expected, f"Expected {expected}, got {score}"
+    assert abs(score - expected) < 0.001, f"Expected {expected}, got {score}"
     
     print("PASS: All confidence calculations correct")
     return True
@@ -263,7 +263,7 @@ def test_refine_and_filter():
     refined = refine_and_filter(proposals)
     print(f"Generic description: {len(refined)} proposals (expected: 1)")
     assert len(refined) == 1, f"Expected 1 proposal, got {len(refined)}"
-    assert refined[0]["confidence"] == 0.85, f"Expected confidence 0.85, got {refined[0]['confidence']}"
+    assert refined[0]["confidence"] == 0.95, f"Expected confidence 0.95, got {refined[0]['confidence']}"
     
     print("PASS: All refinement and filtering tests passed")
     return True

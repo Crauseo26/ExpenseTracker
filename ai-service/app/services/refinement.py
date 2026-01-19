@@ -20,7 +20,7 @@ def calculate_confidence(proposal: Dict[str, Any], was_date_inferred: bool) -> f
     - -0.05 if purchaseDate was inferred (defaulted to today)
     - -0.20 if description is empty or whitespace only
     - -0.10 if description length < 3 characters (and not empty)
-    - -0.15 if description matches generic blacklist
+    - -0.05 if description matches generic blacklist
     
     Args:
         proposal: The expense proposal dictionary from LLM
@@ -49,7 +49,7 @@ def calculate_confidence(proposal: Dict[str, Any], was_date_inferred: bool) -> f
     elif len(description) < 3:
         score -= 0.10
     elif description.lower().strip() in GENERIC_DESCRIPTION_BLACKLIST:
-        score -= 0.15
+        score -= 0.05
     
     return max(0.0, min(1.0, score))
 
