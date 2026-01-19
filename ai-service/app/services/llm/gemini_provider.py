@@ -9,14 +9,16 @@ from .prompts import build_system_prompt, build_user_prompt
 
 
 class GeminiLLMProvider(BaseLLMProvider):
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: Optional[str] = None, model_name: Optional[str] = None):
         self.api_key = api_key or os.getenv("GEMINI_API_KEY")
         if not self.api_key:
             raise ValueError("GEMINI_API_KEY environment variable is required")
         
+        self.model_name = model_name or os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+        
         genai.configure(api_key=self.api_key)
         self.model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash",
+            model_name=self.model_name,
             generation_config={
                 "response_mime_type": "application/json"
             }
