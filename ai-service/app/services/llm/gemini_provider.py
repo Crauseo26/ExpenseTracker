@@ -2,7 +2,8 @@ import os
 import json
 from typing import List, Dict, Any, Optional
 from datetime import datetime
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
 from .base_provider import BaseLLMProvider
 from .prompts import build_system_prompt, build_user_prompt
@@ -16,13 +17,7 @@ class GeminiLLMProvider(BaseLLMProvider):
         
         self.model_name = model_name or os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
         
-        genai.configure(api_key=self.api_key)
-        self.model = genai.GenerativeModel(
-            model_name=self.model_name,
-            generation_config={
-                "response_mime_type": "application/json"
-            }
-        )
+        self.client = genai.Client(api_key=self.api_key)
     
     async def extract_expenses(
         self,
@@ -37,13 +32,32 @@ class GeminiLLMProvider(BaseLLMProvider):
             
             full_prompt = f"{system_prompt}\n\n{user_prompt}"
             
-            response = self.model.generate_content(full_prompt)
+            contents = [
+                types.Content(
+                    role="user",
+                    parts=[
+                        types.Part.from_text(text=full_prompt),
+                    ],
+                ),
+            ]
+            
+            generate_content_config = types.GenerateContentConfig(
+                response_mime_type="application/json"
+            )
+            
+            response = self.client.models.generate_content(
+                model=self.model_name,
+                contents=contents,
+                config=generate_content_config,
+            )
             
             if not response.text:
                 return {
                     "proposals": [],
                     "error": "No response from LLM"
                 }
+            
+            print(f"[DEBUG] LLM Raw Response: {response.text}")
             
             try:
                 result = json.loads(response.text)
@@ -74,6 +88,8 @@ class GeminiLLMProvider(BaseLLMProvider):
                 return result
                 
             except json.JSONDecodeError as e:
+                print(f"[ERROR] JSON Parse Error: {str(e)}")
+                print(f"[ERROR] Raw Response: {response.text}")
                 return {
                     "proposals": [],
                     "error": f"Failed to parse LLM response as JSON: {str(e)}",
@@ -81,6 +97,9 @@ class GeminiLLMProvider(BaseLLMProvider):
                 }
         
         except Exception as e:
+            print(f"[ERROR] LLM Exception: {str(e)}")
+            import traceback
+            traceback.print_exc()
             return {
                 "proposals": [],
                 "error": f"LLM processing error: {str(e)}"
