@@ -26,7 +26,7 @@ def test_simple_expense():
     payload = {
         "rawText": "Compré en McDonald's por $450 pesos uruguayos el 15 de enero",
         "inputType": "TEXT",
-        "availableAccounts": ["Cash", "Visa Santander", "Mastercard BROU"],
+        "availableAccounts": ["Restaurants", "Supermarket", "Transportation", "Utilities"],
         "metadata": {
             "receivedAt": datetime.now().isoformat()
         }
@@ -65,12 +65,12 @@ def test_multiple_expenses():
     
     payload = {
         "rawText": """
-        Hoy gasté $200 en el supermercado Ta-Ta con mi Visa Santander.
-        Después pagué $150 en efectivo en la farmacia.
+        Hoy gasté $200 en el supermercado Ta-Ta.
+        Después pagué $150 en la farmacia.
         También tengo una suscripción mensual de Netflix por USD 15.99.
         """,
         "inputType": "TEXT",
-        "availableAccounts": ["Cash", "Visa Santander", "Mastercard BROU"]
+        "availableAccounts": ["Supermarket", "Healthcare", "Entertainment", "Restaurants"]
     }
     
     print(f"Request Payload:")
@@ -101,7 +101,7 @@ def test_notification_format():
     payload = {
         "rawText": "VISA SANTANDER: Compra aprobada por $1,250.00 en TIENDA INGLESA el 18/01/2026 a las 14:30",
         "inputType": "NOTIFICATION",
-        "availableAccounts": ["Visa Santander", "Mastercard BROU"]
+        "availableAccounts": ["Supermarket", "Restaurants", "Clothing", "Electronics"]
     }
     
     print(f"Request Payload:")

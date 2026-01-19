@@ -64,7 +64,7 @@ curl http://localhost:5000/health
 ```bash
 curl -X POST http://localhost:5000/process-text \
   -H "Content-Type: application/json" \
-  -d "{\"rawText\": \"Compré en McDonald's por $450 pesos uruguayos\", \"inputType\": \"TEXT\", \"availableAccounts\": [\"Cash\", \"Visa Santander\"]}"
+  -d "{\"rawText\": \"Compré en McDonald's por $450 pesos uruguayos\", \"inputType\": \"TEXT\", \"availableAccounts\": [\"Restaurants\", \"Supermarket\", \"Transportation\"]}"
 ```
 
 #### Process Text (Multiple Expenses)
@@ -86,11 +86,28 @@ Invoke-RestMethod -Uri "http://localhost:5000/health" -Method Get
 $body = @{
     rawText = "Compré en McDonald's por $450 pesos uruguayos"
     inputType = "TEXT"
-    availableAccounts = @("Cash", "Visa Santander")
+    availableAccounts = @("Restaurants", "Supermarket", "Transportation")
 } | ConvertTo-Json
 
 Invoke-RestMethod -Uri "http://localhost:5000/process-text" -Method Post -Body $body -ContentType "application/json"
 ```
+
+## Understanding Accounts
+
+**IMPORTANT:** In this system, an "Account" is NOT a payment method (like Visa or Cash).
+
+An **Account** is a logical category for grouping similar expenses:
+
+- **Supermarket** - for grocery shopping
+- **Restaurants** - for dining out
+- **Rent** - for monthly rent payments
+- **Internet** - for internet service bills
+- **Transportation** - for taxi, bus, fuel
+- **Utilities** - for electricity, water, gas
+- **Healthcare** - for medical expenses, pharmacy
+- **Entertainment** - for subscriptions (Netflix, Spotify), movies, etc.
+
+When you provide `availableAccounts` in your request, the AI will try to suggest which category best fits each expense based on the merchant type and context.
 
 ## Interactive API Documentation
 
