@@ -48,6 +48,7 @@ class ProcessTextRequest(BaseModel):
 class ExpenseProposalMetadata(BaseModel):
     merchant: Optional[str] = Field(default=None, description="Detected merchant name")
     rawExtraction: Optional[str] = Field(default=None, description="Raw extracted text")
+    suggestedAccount: Optional[str] = Field(default=None, description="Suggested account category from available accounts")
 
 
 class ExpenseProposal(BaseModel):
@@ -118,7 +119,8 @@ async def process_text(request: ProcessTextRequest):
                     confidence=float(proposal_data.get("confidence", 0.0)),
                     metadata=ExpenseProposalMetadata(
                         merchant=proposal_data.get("metadata", {}).get("merchant"),
-                        rawExtraction=proposal_data.get("metadata", {}).get("rawExtraction")
+                        rawExtraction=proposal_data.get("metadata", {}).get("rawExtraction"),
+                        suggestedAccount=proposal_data.get("metadata", {}).get("suggestedAccount")
                     ) if proposal_data.get("metadata") else None
                 )
                 proposals.append(proposal)
