@@ -1,15 +1,24 @@
+using System.Text.Json.Serialization;
+
 namespace Expenses.Infrastructure.Services.AI;
 
 public class AIProcessingRequest
 {
-    public string NormalizedText { get; set; } = string.Empty;
+    [JsonPropertyName("rawText")]
+    public string RawText { get; set; } = string.Empty;
+    
+    [JsonPropertyName("inputType")]
     public string InputType { get; set; } = string.Empty;
-    public Guid UserId { get; set; }
+    
+    [JsonPropertyName("availableAccounts")]
+    public List<string> AvailableAccounts { get; set; } = new();
+    
+    [JsonPropertyName("metadata")]
     public AIRequestMetadata Metadata { get; set; } = new();
 }
 
 public class AIRequestMetadata
 {
-    public string Source { get; set; } = string.Empty;
-    public DateTime ReceivedAt { get; set; }
+    [JsonPropertyName("receivedAt")]
+    public string ReceivedAt { get; set; } = string.Empty;
 }

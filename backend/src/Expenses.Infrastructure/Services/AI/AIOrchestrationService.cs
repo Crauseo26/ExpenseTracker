@@ -13,6 +13,7 @@ public class AIOrchestrationService : IAIOrchestrationService
     private readonly ILogger<AIOrchestrationService> _logger;
     private readonly string _baseUrl;
     private readonly int _timeoutSeconds;
+    private readonly string _apiKey;
 
     public AIOrchestrationService(
         HttpClient httpClient,
@@ -25,9 +26,15 @@ public class AIOrchestrationService : IAIOrchestrationService
         _timeoutSeconds = int.TryParse(configuration["AIService:TimeoutSeconds"], out var timeout) 
             ? timeout 
             : 30;
+        _apiKey = configuration["AIService:ApiKey"] ?? string.Empty;
 
         _httpClient.BaseAddress = new Uri(_baseUrl);
         _httpClient.Timeout = TimeSpan.FromSeconds(_timeoutSeconds);
+        
+        if (!string.IsNullOrEmpty(_apiKey))
+        {
+            _httpClient.DefaultRequestHeaders.Add("X-Service-Token", _apiKey);
+        }
     }
 
     public async Task<AIProposalResponseDto> ProcessInputAsync(
@@ -40,13 +47,12 @@ public class AIOrchestrationService : IAIOrchestrationService
         {
             var request = new AIProcessingRequest
             {
-                NormalizedText = normalizedContent,
+                RawText = normalizedContent,
                 InputType = inputType,
-                UserId = userId,
+                AvailableAccounts = new List<string>(),
                 Metadata = new AIRequestMetadata
                 {
-                    Source = "Backend",
-                    ReceivedAt = DateTime.UtcNow
+                    ReceivedAt = DateTime.UtcNow.ToString("o")
                 }
             };
 
@@ -56,7 +62,7 @@ public class AIOrchestrationService : IAIOrchestrationService
                 inputType);
 
             var response = await _httpClient.PostAsJsonAsync(
-                "/api/process",
+                "/process-text",
                 request,
                 cancellationToken);
 
@@ -131,12 +137,12 @@ public class AIOrchestrationService : IAIOrchestrationService
         {
             Proposals = response.Proposals.Select(p => new ExpenseProposalDto
             {
-                AccountId = p.AccountId,
+                AccountId = Guid.Empty,
                 Amount = p.Amount,
                 Currency = p.Currency,
                 Description = p.Description,
                 ExpenseType = p.ExpenseType,
-                PurchaseDate = p.PurchaseDate,
+                PurchaseDate = DateTime.TryParse(p.PurchaseDate, out var date) ? date : DateTime.UtcNow,
                 Confidence = p.Confidence
             }).ToList(),
             OverallConfidence = response.OverallConfidence
