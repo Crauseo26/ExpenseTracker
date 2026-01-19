@@ -3,7 +3,10 @@ from pydantic import BaseModel, Field, field_validator
 from typing import List, Optional, Dict, Any
 from datetime import datetime
 from enum import Enum
+from dotenv import load_dotenv
 from app.services.llm import get_llm_provider
+
+load_dotenv()
 
 app = FastAPI(
     title="FinancIA AI Service",
