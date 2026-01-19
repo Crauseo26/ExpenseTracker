@@ -57,6 +57,7 @@ None
 - [ ] F07-T01: Implement Expense CRUD endpoints (API Agent) - Branch: feature/F07-T01-expense-crud-endpoints
 - [ ] F07-T02: Implement ExpenseInput submission endpoint (API Agent) - Branch: feature/F07-T02-expense-input-endpoint
 - [ ] F07-T03: Implement query endpoints with filters (API Agent) - Branch: feature/F07-T03-query-endpoints
+- [ ] F09-T01: Setup Python project structure and FastAPI skeleton (AI Agent) - Branch: feature/F09-T01-ai-service-setup
 
 ### Blocked ⛔
 None
@@ -132,6 +133,24 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-18 (Evening)
+- F09-T01 completed: Python AI service project setup
+- Created FastAPI application structure in `ai-service/` directory
+- Implemented `/health` endpoint returning status and version (200 OK verified)
+- Implemented placeholder `/process-text` endpoint with full request/response models
+- Added requirements.txt with FastAPI 0.115.0, Uvicorn 0.32.0, Pydantic 2.9.2
+- Created Pydantic models for request validation:
+  - ProcessTextRequest (rawText, inputType, metadata)
+  - ProcessTextResponse (proposals, overallConfidence, processingTimeMs)
+  - ExpenseProposal (description, amount, currency, purchaseDate, expenseType, confidence)
+- Implemented proper error handling with HTTP 400/500 status codes
+- Added comprehensive README with setup instructions and API documentation
+- Added .gitignore for Python project (venv, __pycache__, .env)
+- Added env.example template for environment configuration
+- Service verified to start successfully on port 5000
+- Branch pushed: feature/F09-T01-ai-service-setup
+- **Ready for human review and merge**
 
 ### 2026-01-16 (Night)
 - F08-T01 completed: Domain and Application unit tests implementation
