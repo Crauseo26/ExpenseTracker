@@ -7,6 +7,7 @@ from google.genai import types
 
 from .base_provider import BaseLLMProvider
 from .prompts import build_system_prompt, build_user_prompt
+from ..refinement import refine_and_filter, PenaltyConfig
 
 
 class GeminiLLMProvider(BaseLLMProvider):
@@ -24,7 +25,9 @@ class GeminiLLMProvider(BaseLLMProvider):
         raw_text: str,
         input_type: str,
         available_accounts: Optional[List[str]] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
+        min_confidence_threshold: float = 0.5,
+        penalties: Optional[PenaltyConfig] = None
     ) -> Dict[str, Any]:
         try:
             system_prompt = build_system_prompt(available_accounts)
@@ -65,25 +68,13 @@ class GeminiLLMProvider(BaseLLMProvider):
                 if "proposals" not in result:
                     result = {"proposals": []}
                 
-                for proposal in result.get("proposals", []):
-                    if "purchaseDate" in proposal:
-                        try:
-                            datetime.strptime(proposal["purchaseDate"], "%Y-%m-%d")
-                        except ValueError:
-                            proposal["purchaseDate"] = datetime.now().strftime("%Y-%m-%d")
-                    else:
-                        proposal["purchaseDate"] = datetime.now().strftime("%Y-%m-%d")
-                    
-                    if "confidence" not in proposal:
-                        proposal["confidence"] = 0.5
-                    
-                    proposal["confidence"] = max(0.0, min(1.0, proposal["confidence"]))
-                    
-                    if "currency" not in proposal:
-                        proposal["currency"] = "UYU"
-                    
-                    if "expenseType" not in proposal:
-                        proposal["expenseType"] = "SPORADIC"
+                refined_proposals = refine_and_filter(
+                    result.get("proposals", []),
+                    raw_text,
+                    min_confidence_threshold,
+                    penalties
+                )
+                result["proposals"] = refined_proposals
                 
                 return result
                 
