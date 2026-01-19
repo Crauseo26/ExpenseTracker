@@ -24,11 +24,14 @@ Extract structured expense proposals from raw text.
 {
   "rawText": "string",
   "inputType": "TEXT | NOTIFICATION | EMAIL",
+  "availableAccounts": ["string"],
   "metadata": {
     "receivedAt": "ISO-8601 string"
   }
 }
 ```
+
+*Note: `availableAccounts` is a list of account names (e.g., "Cash", "Visa Santander") that the AI should try to match against.*
 
 **Successful Response (200 OK):**
 ```json
