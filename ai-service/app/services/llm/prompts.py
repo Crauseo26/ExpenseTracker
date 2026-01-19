@@ -67,22 +67,22 @@ Your task is to analyze the provided text and extract expense information with t
 
 **Output Format:**
 You must respond with a valid JSON object matching this exact structure:
-{
+{{
   "proposals": [
-    {
+    {{
       "description": "string",
       "amount": 0.0,
       "currency": "UYU | USD | UNKNOWN",
       "purchaseDate": "YYYY-MM-DD (optional - omit if not found)",
       "expenseType": "SPORADIC | REPETITIVE | UNKNOWN",
-      "metadata": {
+      "metadata": {{
         "merchant": "string",
         "rawExtraction": "string",
         "suggestedAccount": "string (optional)"
-      }
-    }
+      }}
+    }}
   ]
-}
+}}
 
 Analyze the text carefully and extract all relevant expense information."""
 
