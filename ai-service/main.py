@@ -47,11 +47,13 @@ class InputType(str, Enum):
 class Currency(str, Enum):
     UYU = "UYU"
     USD = "USD"
+    UNKNOWN = "UNKNOWN"
 
 
 class ExpenseType(str, Enum):
     SPORADIC = "SPORADIC"
     REPETITIVE = "REPETITIVE"
+    UNKNOWN = "UNKNOWN"
 
 
 class PenaltiesConfig(BaseModel):
@@ -167,9 +169,9 @@ async def process_text(request: ProcessTextRequest, api_key: str = Depends(verif
                 proposal = ExpenseProposal(
                     description=proposal_data.get("description", "Unknown expense"),
                     amount=float(proposal_data.get("amount", 0.0)),
-                    currency=Currency(proposal_data.get("currency", "UYU")),
+                    currency=Currency(proposal_data.get("currency", "UNKNOWN")),
                     purchaseDate=proposal_data.get("purchaseDate", datetime.now().strftime("%Y-%m-%d")),
-                    expenseType=ExpenseType(proposal_data.get("expenseType", "SPORADIC")),
+                    expenseType=ExpenseType(proposal_data.get("expenseType", "UNKNOWN")),
                     confidence=float(proposal_data.get("confidence", 0.0)),
                     metadata=ExpenseProposalMetadata(
                         merchant=proposal_data.get("metadata", {}).get("merchant"),
