@@ -7,7 +7,7 @@ from google.genai import types
 
 from .base_provider import BaseLLMProvider
 from .prompts import build_system_prompt, build_user_prompt
-from ..refinement import refine_and_filter
+from ..refinement import refine_and_filter, PenaltyConfig
 
 
 class GeminiLLMProvider(BaseLLMProvider):
@@ -25,7 +25,9 @@ class GeminiLLMProvider(BaseLLMProvider):
         raw_text: str,
         input_type: str,
         available_accounts: Optional[List[str]] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
+        min_confidence_threshold: float = 0.5,
+        penalties: Optional[PenaltyConfig] = None
     ) -> Dict[str, Any]:
         try:
             system_prompt = build_system_prompt(available_accounts)
@@ -66,7 +68,12 @@ class GeminiLLMProvider(BaseLLMProvider):
                 if "proposals" not in result:
                     result = {"proposals": []}
                 
-                refined_proposals = refine_and_filter(result.get("proposals", []), raw_text)
+                refined_proposals = refine_and_filter(
+                    result.get("proposals", []),
+                    raw_text,
+                    min_confidence_threshold,
+                    penalties
+                )
                 result["proposals"] = refined_proposals
                 
                 return result
