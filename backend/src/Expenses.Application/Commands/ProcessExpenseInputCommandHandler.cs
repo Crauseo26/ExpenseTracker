@@ -88,14 +88,24 @@ public class ProcessExpenseInputCommandHandler
             {
                 try
                 {
-                    if (!Enum.TryParse<Currency>(proposal.Currency, true, out var currency))
+                    var currency = Currency.UYU;
+                    if (!Enum.TryParse<Currency>(proposal.Currency, true, out var parsedCurrency))
                     {
-                        continue;
+                        currency = Currency.UYU;
+                    }
+                    else
+                    {
+                        currency = parsedCurrency;
                     }
 
-                    if (!Enum.TryParse<ExpenseType>(proposal.ExpenseType, true, out var expenseType))
+                    var expenseType = ExpenseType.Sporadic;
+                    if (!Enum.TryParse<ExpenseType>(proposal.ExpenseType, true, out var parsedExpenseType))
                     {
-                        continue;
+                        expenseType = ExpenseType.Sporadic;
+                    }
+                    else
+                    {
+                        expenseType = parsedExpenseType;
                     }
 
                     Guid accountId = proposal.AccountId;
