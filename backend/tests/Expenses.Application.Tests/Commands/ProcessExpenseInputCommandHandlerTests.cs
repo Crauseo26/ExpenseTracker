@@ -14,6 +14,7 @@ public class ProcessExpenseInputCommandHandlerTests
 {
     private readonly Mock<IExpenseInputRepository> _expenseInputRepositoryMock;
     private readonly Mock<IExpenseRepository> _expenseRepositoryMock;
+    private readonly Mock<IAccountRepository> _accountRepositoryMock;
     private readonly Mock<IAIOrchestrationService> _aiServiceMock;
     private readonly ConfidenceThresholdPolicy _confidencePolicy;
     private readonly ProcessExpenseInputCommandHandler _handler;
@@ -22,12 +23,18 @@ public class ProcessExpenseInputCommandHandlerTests
     {
         _expenseInputRepositoryMock = new Mock<IExpenseInputRepository>();
         _expenseRepositoryMock = new Mock<IExpenseRepository>();
+        _accountRepositoryMock = new Mock<IAccountRepository>();
         _aiServiceMock = new Mock<IAIOrchestrationService>();
         _confidencePolicy = new ConfidenceThresholdPolicy();
+
+        _accountRepositoryMock
+            .Setup(x => x.GetByUserIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<Domain.Aggregates.Account.Account>());
 
         _handler = new ProcessExpenseInputCommandHandler(
             _expenseInputRepositoryMock.Object,
             _expenseRepositoryMock.Object,
+            _accountRepositoryMock.Object,
             _aiServiceMock.Object,
             _confidencePolicy);
     }
@@ -63,7 +70,7 @@ public class ProcessExpenseInputCommandHandlerTests
         };
 
         _aiServiceMock
-            .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(aiResponse);
 
         Expense? capturedExpense = null;
@@ -111,7 +118,7 @@ public class ProcessExpenseInputCommandHandlerTests
         };
 
         _aiServiceMock
-            .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(aiResponse);
 
         Expense? capturedExpense = null;
@@ -159,7 +166,7 @@ public class ProcessExpenseInputCommandHandlerTests
         };
 
         _aiServiceMock
-            .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(aiResponse);
 
         Expense? capturedExpense = null;
@@ -187,7 +194,7 @@ public class ProcessExpenseInputCommandHandlerTests
         };
 
         _aiServiceMock
-            .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new Exception("AI service unavailable"));
 
         ExpenseInput? capturedInput = null;
@@ -245,7 +252,7 @@ public class ProcessExpenseInputCommandHandlerTests
         };
 
         _aiServiceMock
-            .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(aiResponse);
 
         var result = await _handler.HandleAsync(command);
@@ -302,7 +309,7 @@ public class ProcessExpenseInputCommandHandlerTests
         };
 
         _aiServiceMock
-            .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(aiResponse);
 
         var result = await _handler.HandleAsync(command);

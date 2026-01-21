@@ -62,6 +62,7 @@ None
 
 ### Ready for Review 📋
 - [x] F10-T01: Update Backend AI Client Contracts & Security (Infrastructure Agent)
+- [x] F10-T02: Inject User Accounts into AI Request (Application Agent)
 
 ### Blocked ⛔
 None
@@ -133,6 +134,19 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-21 (Afternoon)
+- F10-T02 completed: Account injection and matching logic implemented
+- Updated `IAIOrchestrationService` interface to accept `availableAccounts` parameter
+- Modified `AIOrchestrationService` to pass account names to AI service
+- Enhanced `ProcessExpenseInputCommandHandler`:
+  - Injected `IAccountRepository` to fetch user accounts
+  - Created case-insensitive account name-to-ID mapping dictionary
+  - Passed account names to AI service for context-aware suggestions
+  - Implemented account matching logic: if AI suggests an account name, handler matches it to actual account ID
+- Updated all unit tests to reflect new interface signatures
+- Solution builds successfully with no errors
+- Branch pushed: feature/F10-T02-account-injection
 
 ### 2026-01-19 (Evening)
 - F10-T01 completed: Backend AI Client updated to match v1.0 API contract
