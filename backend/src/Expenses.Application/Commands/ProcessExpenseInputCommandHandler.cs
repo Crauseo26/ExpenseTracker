@@ -98,7 +98,7 @@ public class ProcessExpenseInputCommandHandler
                         continue;
                     }
 
-                    Guid accountId = Guid.Empty;
+                    Guid accountId = proposal.AccountId;
                     if (!string.IsNullOrEmpty(proposal.SuggestedAccountName) &&
                         accountMap.TryGetValue(proposal.SuggestedAccountName, out var matchedAccountId))
                     {
