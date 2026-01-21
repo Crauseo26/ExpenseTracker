@@ -143,7 +143,8 @@ public class AIOrchestrationService : IAIOrchestrationService
                 Description = p.Description,
                 ExpenseType = p.ExpenseType,
                 PurchaseDate = DateTime.TryParse(p.PurchaseDate, out var date) ? date : DateTime.UtcNow,
-                Confidence = p.Confidence
+                Confidence = p.Confidence,
+                SuggestedAccountName = p.Metadata.SuggestedAccount
             }).ToList(),
             OverallConfidence = response.OverallConfidence
         };

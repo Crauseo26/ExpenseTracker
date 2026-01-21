@@ -61,7 +61,7 @@ Target: Connect Backend to AI Service and begin Mobile App development.
 None
 
 ### Ready for Review 📋
-None
+- [x] F10-T01: Update Backend AI Client Contracts & Security (Infrastructure Agent)
 
 ### Blocked ⛔
 None
@@ -133,6 +133,18 @@ None
 ---
 
 ## Notes & Decisions
+
+### 2026-01-19 (Evening)
+- F10-T01 completed: Backend AI Client updated to match v1.0 API contract
+- Updated DTOs to align with Spec 15:
+  - `AIProcessingRequest`: Changed to `rawText`, added `availableAccounts` list, updated metadata to ISO-8601 format
+  - `AIProcessingResponse`: Added `processingTimeMs`, updated proposal structure with metadata object
+  - `AIExpenseProposal`: Added metadata fields (merchant, rawExtraction, suggestedAccount), changed purchaseDate to string
+- Implemented security: Added `X-Service-Token` header support using `AIService:ApiKey` configuration
+- Updated endpoint from `/api/process` to `/process-text` to match specification
+- All DTOs now use `JsonPropertyName` attributes for proper camelCase serialization
+- Solution builds successfully with no errors
+- Branch pushed: feature/F10-T01-backend-ai-client-update
 
 ### 2026-01-19 (Afternoon)
 - F09-T05 completed: Security and dynamic scoring implemented

@@ -10,6 +10,7 @@ public record ExpenseProposalDto
     public string ExpenseType { get; init; } = null!;
     public DateTime PurchaseDate { get; init; }
     public double Confidence { get; init; }
+    public string? SuggestedAccountName { get; init; }
 }
 
 public record AIProposalResponseDto
