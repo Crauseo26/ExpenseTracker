@@ -152,11 +152,11 @@ On `ERROR`:
 
 ```json
 {
-  "normalizedText": "string",
+  "rawText": "string",
   "inputType": "TEXT | IMAGE | NOTIFICATION",
-  "references": {
-    "accounts": ["UUID"],
-    "expenseGroups": ["UUID"]
+  "availableAccounts": ["string"],
+  "metadata": {
+    "receivedAt": "ISO-8601"
   }
 }
 ```
@@ -169,14 +169,15 @@ On `ERROR`:
 {
   "proposals": [
     {
-      "accountId": "UUID",
-      "expenseGroupId": "UUID",
+      "description": "Uber",
       "amount": 510.00,
       "currency": "UYU",
-      "description": "Uber",
-      "expenseType": "SPORADIC | REPETITIVE",
       "purchaseDate": "YYYY-MM-DD",
-      "confidence": 0.91
+      "expenseType": "SPORADIC | REPETITIVE",
+      "confidence": 0.91,
+      "metadata": {
+        "suggestedAccount": "Transportation"
+      }
     }
   ],
   "overallConfidence": 0.90
@@ -185,7 +186,7 @@ On `ERROR`:
 
 Rules:
 - AI must not create new entities
-- All IDs must reference existing data
+- Backend matches `suggestedAccount` string to an internal Account UUID.
 
 ---
 

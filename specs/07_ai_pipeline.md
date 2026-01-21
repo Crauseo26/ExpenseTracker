@@ -130,14 +130,17 @@ The AI must return a **list of proposed expenses**.
 {
   "proposals": [
     {
-      "accountId": "UUID",
-      "expenseGroupId": "UUID",
+      "description": "McDonalds",
       "amount": 1090.00,
       "currency": "UYU",
-      "description": "McDonalds",
-      "expenseType": "SPORADIC | REPETITIVE",
       "purchaseDate": "YYYY-MM-DD",
-      "confidence": 0.92
+      "expenseType": "SPORADIC | REPETITIVE",
+      "confidence": 0.92,
+      "metadata": {
+        "merchant": "McDonalds",
+        "rawExtraction": "...",
+        "suggestedAccount": "Restaurants"
+      }
     }
   ],
   "overallConfidence": 0.90
@@ -145,20 +148,21 @@ The AI must return a **list of proposed expenses**.
 ```
 
 Rules:
-- AI cannot create new Accounts or ExpenseGroups
-- All references must already exist
-- Amounts must be non-negative
+- AI does NOT return UUIDs or create entities. It returns string suggestions.
+- The Backend is responsible for matching `suggestedAccount` to an existing Account ID.
+- Amounts must be non-negative.
 
 ---
 
 ## Confidence Scoring
 
-- Range: **0–100 internally**, normalized to **0.0–1.0** for decision logic
-- Global MVP threshold: **0.87**
+- **Deterministic Logic:** The confidence score is calculated by the AI Service based on data completeness, not guessed by the LLM.
+- **Range:** 0.0 to 1.0.
+- **Penalties:** Score is reduced for missing data (e.g., missing date, zero amount) or generic descriptions.
 
-Decision rules:
+Decision rules (Backend):
 
-- `confidence >= threshold → Expense marked **CONFIRMED**
+- `confidence >= threshold (0.87)` → Expense marked **CONFIRMED**
 - `confidence < threshold` → Expense marked **PENDING_REVIEW****
 
 ---
