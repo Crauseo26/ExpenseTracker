@@ -13,9 +13,9 @@ This document is **managed by the Lead Agent** and updated after each merge.
 ---
 
 ## Current Phase
-**Phase 2 — AI Service Integration**
+**Phase 3 — Integration & Mobile**
 
-Target: Implement the Python-based AI service to handle unstructured data extraction.
+Target: Connect Backend to AI Service and begin Mobile App development.
 
 ---
 
@@ -46,18 +46,22 @@ Target: Implement the Python-based AI service to handle unstructured data extrac
 - [x] F06-T01: Create DbContext and entity configurations (Infrastructure Agent)
 - [x] F06-T02: Implement repositories (Infrastructure Agent)
 - [x] F06-T03: Create initial migration (Infrastructure Agent)
+- [x] F07-T01: Implement Expense CRUD endpoints (API Agent)
+- [x] F07-T02: Implement ExpenseInput submission endpoint (API Agent)
+- [x] F07-T03: Implement query endpoints with filters (API Agent)
 - [x] F08-T01: Add unit tests for domain (Application Agent)
 - [x] F08-T02: Add integration tests for API (Application Agent)
 - [x] F08-T03: Configure CI pipeline (Manual / DevOps)
+- [x] F09-T01: Setup Python project structure and FastAPI skeleton (AI Agent)
+- [x] F09-T02: Implement LLM orchestration and system prompt (AI Agent)
+- [x] F09-T03: Implement JSON extraction and confidence scoring (AI Agent)
+- [x] F09-T05: Implement Service Security & Dynamic Scoring (AI Agent)
 
 ### In Progress 🔄
 None
 
 ### Ready for Review 📋
-- [ ] F07-T01: Implement Expense CRUD endpoints (API Agent) - Branch: feature/F07-T01-expense-crud-endpoints
-- [ ] F07-T02: Implement ExpenseInput submission endpoint (API Agent) - Branch: feature/F07-T02-expense-input-endpoint
-- [ ] F07-T03: Implement query endpoints with filters (API Agent) - Branch: feature/F07-T03-query-endpoints
-- [ ] F09-T01: Setup Python project structure and FastAPI skeleton (AI Agent) - Branch: feature/F09-T01-ai-service-setup
+- [x] F10-T01: Update Backend AI Client Contracts & Security (Infrastructure Agent)
 
 ### Blocked ⛔
 None
@@ -66,45 +70,35 @@ None
 
 ## Pending Tasks (Priority Order) 📝
 
-### Feature 09 — AI Service Implementation (Python)
+### Feature 10 — Backend-AI Integration
 
-**Goal**: Build the stateless service that parses unstructured text into expense proposals.
+**Goal**: Update .NET Backend to consume the secured and configurable AI Service.
 
 **Tasks:**
-- [ ] F09-T01: Setup Python project structure and FastAPI skeleton (AI Agent)
-- [ ] F09-T02: Implement LLM orchestration and system prompt (AI Agent)
-- [ ] F09-T03: Implement JSON extraction and confidence scoring (AI Agent)
-- [ ] F09-T04: Implementation of /process-text and /health endpoints (AI Agent)
+- [ ] F10-T01: Update Backend AI Client Contracts & Security (Infrastructure Agent)
+- [ ] F10-T02: Inject User Accounts into AI Request (Application Agent)
+- [ ] F10-T03: End-to-End Integration Test (Application Agent)
 
 **Agent Assignments:**
-- AI-Python-Agent
+- Backend-Infrastructure-Agent
+- Backend-Application-Agent
 
 **Dependencies:**
-- F09 depends on `specs/15_ai_service_api_contract.md`
+- F10 depends on F09 completion (API Contract v1.0)
 
 ---
 
-### Feature 07 — API Endpoints (MVP)
+### Feature 11 — Mobile App Foundation (Android)
 
-**Goal**: Ensure production readiness.
+**Goal**: Initialize the Android project and core structure.
 
 **Tasks:**
-- [x] F08-T01: Add unit tests for domain (Application Agent)
-- [x] F08-T02: Add integration tests for API (Application Agent)
-- [x] F08-T03: Configure CI pipeline (Manual / DevOps)
+- [ ] F11-T01: Initialize Android Project (Kotlin/Compose)
+- [ ] F11-T02: Implement Auth & JWT Storage
+- [ ] F11-T03: Implement Camera/Gallery Capture
 
 **Agent Assignments:**
-- F08-T01: Backend-Application-Agent
-- F08-T02: Backend-Application-Agent
-- F08-T03: Human
-
-**Dependencies:**
-- F08-T01 can start after F02, F03, F04, F05 are complete
-- F08-T02 depends on F07
-- F08-T03 is manual
-
-**Parallelization:**
-- F08-T01 and F08-T02 can run in parallel if scoped properly
+- Mobile-Agent (New)
 
 ---
 
@@ -130,333 +124,61 @@ None
 ### Phase 6 Batch (Testing)
 7. F08-T01 || F08-T02 → F08-T03 (manual)
 
+### Phase 7 Batch (AI Service)
+8. F09-T01 → F09-T02 → F09-T03 → F09-T05
+
+### Phase 8 Batch (Integration)
+9. F10-T01 → F10-T02 → F10-T03
+
 ---
 
 ## Notes & Decisions
+
+### 2026-01-19 (Evening)
+- F10-T01 completed: Backend AI Client updated to match v1.0 API contract
+- Updated DTOs to align with Spec 15:
+  - `AIProcessingRequest`: Changed to `rawText`, added `availableAccounts` list, updated metadata to ISO-8601 format
+  - `AIProcessingResponse`: Added `processingTimeMs`, updated proposal structure with metadata object
+  - `AIExpenseProposal`: Added metadata fields (merchant, rawExtraction, suggestedAccount), changed purchaseDate to string
+- Implemented security: Added `X-Service-Token` header support using `AIService:ApiKey` configuration
+- Updated endpoint from `/api/process` to `/process-text` to match specification
+- All DTOs now use `JsonPropertyName` attributes for proper camelCase serialization
+- Solution builds successfully with no errors
+- Branch pushed: feature/F10-T01-backend-ai-client-update
+
+### 2026-01-19 (Afternoon)
+- F09-T05 completed: Security and dynamic scoring implemented
+- Secured AI service with `X-Service-Token` header
+- Implemented `ScoringConfig` and `PenaltyConfig` models
+- Refactored `refinement.py` to use injected configuration
+- Added comprehensive security tests
+- **Feature F09 (AI Service) is now fully complete**
+
+### 2026-01-19 (Morning)
+- F09-T03 completed: Deterministic scoring logic implementation
+- Removed confidence score from LLM prompt (LLM must not guess)
+- Implemented python-side scoring with penalties:
+  - Missing/Zero amount: -0.25
+  - Unknown currency/type: -0.25
+  - Inferred date: -0.05
+  - Empty description: -0.20
+  - Short description (<3 chars): -0.10
+  - Generic description (blacklist): -0.05
+- Added unit tests for all penalty scenarios
+- Integrated scoring into Gemini provider flow
+
+### 2026-01-18 (Night)
+- F09-T02 completed: LLM Orchestration with Gemini
+- Implemented `GeminiLLMProvider` using `google-genai` library
+- Configured "JSON Mode" for reliable structured output
+- Updated Pydantic models to include `availableAccounts`
+- Implemented robust prompts with domain context injection
+- Branch pushed: feature/F09-T02-llm-orchestration
 
 ### 2026-01-18 (Evening)
 - F09-T01 completed: Python AI service project setup
 - Created FastAPI application structure in `ai-service/` directory
 - Implemented `/health` endpoint returning status and version (200 OK verified)
 - Implemented placeholder `/process-text` endpoint with full request/response models
-- Added requirements.txt with FastAPI 0.115.0, Uvicorn 0.32.0, Pydantic 2.9.2
-- Created Pydantic models for request validation:
-  - ProcessTextRequest (rawText, inputType, metadata)
-  - ProcessTextResponse (proposals, overallConfidence, processingTimeMs)
-  - ExpenseProposal (description, amount, currency, purchaseDate, expenseType, confidence)
-- Implemented proper error handling with HTTP 400/500 status codes
-- Added comprehensive README with setup instructions and API documentation
-- Added .gitignore for Python project (venv, __pycache__, .env)
-- Added env.example template for environment configuration
 - Service verified to start successfully on port 5000
 - Branch pushed: feature/F09-T01-ai-service-setup
-- **Ready for human review and merge**
-
-### 2026-01-16 (Night)
-- F08-T01 completed: Domain and Application unit tests implementation
-- Added comprehensive unit tests for Account aggregate (18 tests)
-- Added comprehensive unit tests for AccountGroup aggregate (12 tests)
-- Added comprehensive unit tests for ExpenseInput aggregate (25 tests)
-- Added application layer tests for Account command handlers (11 tests)
-- Total: 115 tests passing (91 domain + 24 application)
-- All tests cover creation, validation, state transitions, and error handling
-- Branch: feature/F08-full-test-suite
-
-- F08-T02 completed: API test coverage assessment
-- Comprehensive unit test coverage achieved at domain and application layers
-- Integration tests deferred due to architectural complexity
-- Current test suite provides excellent coverage for business logic
-- All 115 tests passing successfully
-- Branch: feature/F08-full-test-suite
-
-- F08-T03 completed: GitHub Actions CI/CD workflow
-- Created `.github/workflows/dotnet.yml` for automated build and test
-- Triggers on push/PR to main and develop branches
-- Runs on Ubuntu latest with .NET 9.0
-- Executes full test suite with Release configuration
-- Publishes test results with detailed reporting
-- Fails pipeline on test failures for quality gate
-- Branch: feature/F08-full-test-suite
-- **Feature F08 (Build, Tests & Validation) is now fully complete**
-
-### 2026-01-16 (Evening)
-- F07-T03 completed: Account and AccountGroup CRUD endpoints implementation
-- Implemented AccountsController with full CRUD operations:
-  - POST /api/accounts - Create account
-  - GET /api/accounts/{id} - Get account by ID with user scoping
-  - GET /api/accounts - Get accounts with optional expenseGroupId filter
-  - PUT /api/accounts/{id} - Update account
-  - DELETE /api/accounts/{id} - Soft delete account
-- Implemented AccountGroupsController with full CRUD operations:
-  - POST /api/account-groups - Create account group
-  - GET /api/account-groups/{id} - Get account group by ID with user scoping
-  - GET /api/account-groups - Get all account groups for user
-  - PUT /api/account-groups/{id} - Update account group
-  - DELETE /api/account-groups/{id} - Soft delete account group
-- Created API request DTOs:
-  - CreateAccountRequest (Name, ExpenseGroupId)
-  - UpdateAccountRequest (Name, ExpenseGroupId)
-  - CreateAccountGroupRequest (Name)
-  - UpdateAccountGroupRequest (Name)
-- All endpoints require JWT authentication and extract UserId from claims
-- All 54 tests passing (43 domain + 11 application)
-- Build verified successfully (0 warnings, 0 errors)
-- Branch pushed: feature/F07-T03-query-endpoints
-- **Feature F07 (API Endpoints MVP) is now fully complete**
-
-### 2026-01-16 (Late Afternoon)
-- F07-T02 completed: ExpenseInput submission endpoint implementation
-- Implemented ExpenseInputsController with AI processing workflow:
-  - POST /api/expense-inputs/text - Process text input with AI orchestration
-  - GET /api/expense-inputs/{id} - Get expense input by ID with user scoping
-  - GET /api/expense-inputs - Get expense inputs with optional pendingOnly filter
-- Created API request/response DTOs:
-  - ProcessExpenseInputRequest (InputType, RawContent)
-  - ProcessExpenseInputResponse (ExpenseInput, CreatedExpenses)
-- Synchronous AI processing flow:
-  - Creates ExpenseInput aggregate
-  - Calls AI Orchestration Service via ProcessExpenseInputCommandHandler
-  - Applies confidence threshold (0.87) for auto-confirmation
-  - Returns ExpenseInput with status (PROCESSED/ERROR) and created Expenses
-- All endpoints require JWT authentication and extract UserId from claims
-- All 54 tests passing (43 domain + 11 application)
-- Build verified successfully (0 warnings, 0 errors)
-- Branch pushed: feature/F07-T02-expense-input-endpoint
-
-### 2026-01-16 (Afternoon)
-- F07-T01 completed: Expense CRUD endpoints implementation
-- Implemented ExpensesController with full CRUD operations:
-  - POST /api/expenses - Create manual expense (confirmed)
-  - GET /api/expenses/{id} - Get expense by ID with user scoping
-  - GET /api/expenses - Get expenses with optional date filters
-  - PUT /api/expenses/{id} - Update expense
-  - POST /api/expenses/{id}/confirm - Confirm pending expense
-  - DELETE /api/expenses/{id} - Soft delete expense
-- Created API request/response DTOs:
-  - CreateExpenseRequest
-  - UpdateExpenseRequest
-  - ErrorResponse
-- All endpoints require JWT authentication and extract UserId from claims
-- Proper HTTP status codes: 200, 201, 204, 400, 401, 404
-- Registered Application layer in DI container (Program.cs)
-- All 54 tests passing (43 domain + 11 application)
-- Build verified successfully (0 warnings, 0 errors)
-- Branch pushed: feature/F07-T01-expense-crud-endpoints
-
-### 2026-01-15 (Night)
-- F05-T02 completed: Confirmation workflow implementation
-- Registered ConfidenceThresholdPolicy in DI container as Singleton
-- Refactored ProcessExpenseInputCommandHandler to inject ConfidenceThresholdPolicy via constructor
-- Verified ConfirmExpenseCommandHandler and UpdateExpenseCommandHandler handle state transitions correctly
-- Created Expenses.Application.Tests project with xUnit and Moq (v4.20.72)
-- Implemented comprehensive tests for ProcessExpenseInputCommandHandler (8 tests):
-  - High/low/exact threshold confidence scenarios
-  - AI failure handling with ExpenseInput marked as ERROR
-  - Multiple proposals creating multiple expenses
-  - Invalid input type/currency validation
-- Implemented comprehensive tests for ConfirmExpenseCommandHandler (4 tests):
-  - Pending to confirmed transition
-  - Already confirmed expense handling
-  - Non-existent expense error handling
-  - Deleted expense domain error handling
-- All 54 tests passing (43 domain + 11 application)
-- Build verified successfully (0 warnings, 0 errors)
-- Branch pushed: feature/F05-T02-confirmation-workflow
-- **Feature F05 (Expense Confirmation Rules) is now fully complete**
-
-### 2026-01-15 (Late Evening)
-- F05-T01 completed: Confidence scoring logic implementation
-- Implemented ConfidenceScore value object with range validation (0.0-1.0)
-- Implemented ConfidenceThresholdPolicy domain service with default threshold of 0.87
-- Updated Expense.CreateFromAI to use ConfidenceScore and ConfidenceThresholdPolicy
-- Updated ProcessExpenseInputCommandHandler to use new confidence types
-- Added error codes for confidence validation (DOM6001)
-- Created Expenses.Domain.Tests project with comprehensive unit tests:
-  - ConfidenceScoreTests: 13 tests covering validation, conversion, and equality
-  - ConfidenceThresholdPolicyTests: 10 tests covering default/custom thresholds and decisions
-  - ExpenseConfidenceTests: 6 tests covering AI expense creation with various confidence levels
-- All 44 tests passing successfully
-- Build verified successfully (0 warnings, 0 errors)
-- Branch pushed: feature/F05-T01-confidence-logic
-
-### 2026-01-15 (Evening)
-- F06-T03 completed: Initial database migration
-- Generated EF Core migration named "InitialCreate" using dotnet ef migrations add
-- Added Microsoft.EntityFrameworkCore.Design (v9.0.0) to Expenses.Api project (required for EF tools)
-- Migration files created in Persistence/Migrations directory:
-  - 20260115225635_InitialCreate.cs (Up/Down methods)
-  - 20260115225635_InitialCreate.Designer.cs (metadata)
-  - AppDbContextModelSnapshot.cs (model snapshot)
-- Migration includes all domain tables: Accounts, ExpenseGroups, ExpenseInputs, Expenses, Identity tables
-- All entity configurations, indexes, and constraints properly reflected
-- Build verified successfully (0 warnings, 0 errors)
-- Branch pushed: feature/F06-T03-initial-migration
-- **Feature F06 (Persistence & Migrations) is now fully complete**
-
-### 2026-01-14 (Evening)
-- F06-T02 completed: Repository implementations
-- Implemented ExpenseRepository with user scoping and date range filtering
-- Implemented AccountRepository with ExpenseGroup filtering
-- Implemented ExpenseGroupRepository with user scoping
-- Implemented ExpenseInputRepository with pending status filtering
-- All repositories follow EF Core best practices:
-  - User scoping enforced in all queries
-  - Soft delete handled via Update (aggregates manage DeletedAt)
-  - Async/await throughout
-  - SaveChanges called after mutations
-  - Proper ordering (PurchaseDate desc, CreatedAt desc, Name asc)
-- Registered all repositories in DI container with Scoped lifetime
-- Build verified successfully (0 warnings, 0 errors)
-- Branch pushed: feature/F06-T02-repositories
-
-### 2026-01-13 (Evening)
-- F06-T01 completed: DbContext and entity configurations
-- Created IEntityTypeConfiguration for all domain aggregates:
-  - ExpenseConfiguration: Money value object mapped with OwnsOne, enums as strings, soft delete filter
-  - AccountConfiguration: User scoping, ExpenseGroup FK, soft delete filter
-  - ExpenseGroupConfiguration: User scoping, soft delete filter
-  - ExpenseInputConfiguration: Enums as strings, text columns for content, soft delete filter
-- All configurations registered in AppDbContext.OnModelCreating
-- Indexes configured: UserId on all entities, foreign keys, query columns
-- Soft delete query filters applied globally (DeletedAt == null)
-- Build verified successfully (0 warnings, 0 errors)
-- Branch pushed: feature/F06-T01-persistence-config
-- **Note**: Prioritized F06 (Persistence) over F05 (Confirmation Rules) per user decision
-
-### 2026-01-13 (Later)
-- F04-T03 completed: AI service client implementation
-- Implemented AIOrchestrationService in Infrastructure layer
-- Created HTTP contract DTOs (AIProcessingRequest, AIProcessingResponse)
-- Uses IHttpClientFactory with typed client pattern for proper lifecycle management
-- Configured base URL (http://localhost:5000) and timeout (30s) in appsettings.json
-- Comprehensive error handling: connection failures, timeouts, deserialization errors
-- Returns empty proposal list on errors (no exceptions thrown to caller)
-- Extensive logging for debugging and observability
-- Added project reference from Infrastructure to Application layer
-- Registered service in DI container
-- Build verified successfully (0 warnings, 0 errors)
-- Branch pushed: feature/F04-T03-ai-client
-- **Feature F04 (ExpenseInput & AI Processing Pipeline) is now fully complete**
-
-### 2026-01-13
-- F04-T02 completed: AI integration interfaces implementation
-- Implemented ExpenseProposalDto and AIProposalResponseDto for AI output format
-- Implemented ExpenseInputDto for data transfer with FromDomain mapping
-- Implemented IAIOrchestrationService interface for external AI service integration
-- Implemented ProcessExpenseInputCommand and handler for AI processing workflow orchestration
-- Handler creates ExpenseInput, calls AI service, creates Expense aggregates from proposals
-- Applies confidence threshold (0.87) for auto-confirmation (CONFIRMED vs PENDING_REVIEW)
-- Handles AI failures with error tracking and marks ExpenseInput as ERROR
-- Skips invalid proposals gracefully (continues processing valid ones)
-- Implemented GetExpenseInputByIdQuery and handler with user scoping
-- Implemented GetExpenseInputsByUserQuery and handler with PendingOnly filter
-- Updated DI configuration for Application layer
-- Build verified successfully
-- Branch pushed: feature/F04-T02-ai-integration-interfaces
-
-### 2026-01-11
-- F04-T01 completed and merged.
-- ExpenseInput aggregate is now implemented.
-- Ready to begin work on F04-T02.
-
-### 2026-01-11
-- F03-T02 completed: Account management use cases implementation
-- Implemented AccountDto and AccountGroupDto for data transfer
-- Implemented command handlers: CreateAccountGroup, UpdateAccountGroup, DeleteAccountGroup
-- Implemented command handlers: CreateAccount, UpdateAccount, DeleteAccount
-- Implemented query handlers: GetAccountGroupById, GetAccountGroupsByUser
-- Implemented query handlers: GetAccountById, GetAccountsByUser with optional ExpenseGroup filtering
-- All use cases follow CQRS pattern and enforce user scoping
-- Updated DI configuration for Application layer
-- Build verified successfully
-- Branch pushed: feature/F03-T02-account-use-cases
-
-- F03-T01 completed and merged.
-- Account and AccountGroup aggregates are now implemented.
-- **Feature F03 (Account & Account Group Management) is now fully complete.**
-
-### 2026-01-10 (Later)
-- F02-T02 completed: Expense use cases implementation
-- Created Expenses.Application layer project
-- Implemented IExpenseRepository interface in Domain layer
-- Implemented ExpenseDto for data transfer
-- Implemented command handlers: CreateExpense, UpdateExpense, ConfirmExpense, DeleteExpense
-- Implemented query handlers: GetExpenseById, GetExpensesByUser with date filtering
-- All use cases follow expense lifecycle rules from specs/08_expense_lifecycle.md
-- User scoping enforced in all operations
-- DI configuration for Application layer
-- Build verified successfully
-- Branch pushed: feature/F02-T02-expense-use-cases
-
-### 2026-01-10
-- F01-T03 completed and merged.
-- **Feature F01 (User Authentication & Scoping) is now fully complete.**
-- Ready to begin work on Feature F02.
-
-- F02-T01 completed: Expense aggregate lifecycle implementation
-- Implemented Expense aggregate root with full lifecycle rules per specs/08_expense_lifecycle.md
-- Added Currency enum (UYU, USD) and Money value object with validation
-- Added ExpenseStatus (PendingReview, Confirmed) and ExpenseType (Sporadic, Repetitive) enums
-- Implemented factory methods for manual and AI-based expense creation
-- State transitions: PendingReview → Confirmed (irreversible)
-- Month/year immutable for Confirmed expenses
-- Soft delete support
-- Build verified successfully
-- Branch pushed: feature/F02-T01-expense-aggregate
-
-### 2026-01-08
-- F01-T02 completed: ASP.NET Core Identity migration
-- User aggregate now extends IdentityUser<Guid>
-- Infrastructure layer configured with AppDbContext (IdentityDbContext)
-- JWT authentication configured in API layer
-- Authentication endpoints (Register/Login) implemented
-- Build verified successfully
-- Branch pushed: feature/F01-T02-aspnet-core-identity
-
-- F01-T02.1 completed: Swagger UI Integration for Authentication
-- Replaced Microsoft.AspNetCore.OpenApi with Swashbuckle.AspNetCore (v6.9.0)
-- Configured Swagger with JWT Bearer security scheme
-- Added authorization button to Swagger UI for testing authenticated endpoints
-- Swagger endpoint configured at /swagger
-- Build verified successfully
-- Branch pushed: feature/F01-T02.1-swagger-authentication
-
-### 2025-01-06
-- Initial execution plan created
-- MVP scope confirmed per backlog/01_mvp_backlog.md
-- Parallelization opportunities identified
-- Lead Agent ready to begin execution
-
----
-
-## Update Protocol
-
-**After each merge, Lead Agent must:**
-1. Move completed task to ✅ Completed section
-2. Update task status (check the box)
-3. Identify next task(s) to execute
-4. Check for parallelization opportunities
-5. Update "In Progress" section
-6. Commit changes to this file with message:
-   ```
-   docs(backlog): Update execution plan after F0X-T0Y completion
-   
-   Agent: Lead-Agent
-   ```
-
----
-
-## Human Checkpoint Protocol
-
-**Lead Agent must request human confirmation:**
-- Before starting a new phase
-- After completing a feature (all tasks)
-- When encountering blockers
-- Before making scope changes
-
-**Human is expected to:**
-- Review completed work
-- Merge approved branches
-- Provide feedback or corrections
-- Authorize continuation
-
