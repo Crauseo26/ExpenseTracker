@@ -279,7 +279,7 @@ public class ProcessExpenseInputCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleAsync_WithInvalidCurrency_ShouldSkipProposal()
+    public async Task HandleAsync_WithInvalidCurrency_ShouldUseDefaultCurrency()
     {
         var userId = Guid.NewGuid();
         var accountId = Guid.NewGuid();
@@ -312,10 +312,18 @@ public class ProcessExpenseInputCommandHandlerTests
             .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(aiResponse);
 
+        Expense? capturedExpense = null;
+        _expenseRepositoryMock
+            .Setup(x => x.AddAsync(It.IsAny<Expense>(), It.IsAny<CancellationToken>()))
+            .Callback<Expense, CancellationToken>((exp, ct) => capturedExpense = exp)
+            .ReturnsAsync((Expense exp, CancellationToken ct) => exp);
+
         var result = await _handler.HandleAsync(command);
 
         Assert.True(result.Success);
-        Assert.Empty(result.CreatedExpenses);
-        _expenseRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Expense>(), It.IsAny<CancellationToken>()), Times.Never);
+        Assert.NotEmpty(result.CreatedExpenses);
+        Assert.NotNull(capturedExpense);
+        Assert.Equal("UYU", capturedExpense.Amount.Currency.ToString());
+        _expenseRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Expense>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 }
