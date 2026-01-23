@@ -8,5 +8,6 @@ public interface IAIOrchestrationService
         Guid userId,
         string inputType,
         string normalizedContent,
+        List<string> availableAccounts,
         CancellationToken cancellationToken = default);
 }

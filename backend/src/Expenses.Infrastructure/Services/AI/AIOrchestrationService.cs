@@ -41,6 +41,7 @@ public class AIOrchestrationService : IAIOrchestrationService
         Guid userId,
         string inputType,
         string normalizedContent,
+        List<string> availableAccounts,
         CancellationToken cancellationToken = default)
     {
         try
@@ -49,7 +50,7 @@ public class AIOrchestrationService : IAIOrchestrationService
             {
                 RawText = normalizedContent,
                 InputType = inputType,
-                AvailableAccounts = new List<string>(),
+                AvailableAccounts = availableAccounts,
                 Metadata = new AIRequestMetadata
                 {
                     ReceivedAt = DateTime.UtcNow.ToString("o")
@@ -57,9 +58,10 @@ public class AIOrchestrationService : IAIOrchestrationService
             };
 
             _logger.LogInformation(
-                "Sending AI processing request for user {UserId}, input type {InputType}",
+                "Sending AI processing request for user {UserId}, input type {InputType}, with {AccountCount} available accounts",
                 userId,
-                inputType);
+                inputType,
+                availableAccounts.Count);
 
             var response = await _httpClient.PostAsJsonAsync(
                 "/process-text",

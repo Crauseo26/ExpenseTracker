@@ -13,17 +13,20 @@ public class ProcessExpenseInputCommandHandler
 {
     private readonly IExpenseInputRepository _expenseInputRepository;
     private readonly IExpenseRepository _expenseRepository;
+    private readonly IAccountRepository _accountRepository;
     private readonly IAIOrchestrationService _aiOrchestrationService;
     private readonly ConfidenceThresholdPolicy _confidencePolicy;
 
     public ProcessExpenseInputCommandHandler(
         IExpenseInputRepository expenseInputRepository,
         IExpenseRepository expenseRepository,
+        IAccountRepository accountRepository,
         IAIOrchestrationService aiOrchestrationService,
         ConfidenceThresholdPolicy confidencePolicy)
     {
         _expenseInputRepository = expenseInputRepository;
         _expenseRepository = expenseRepository;
+        _accountRepository = accountRepository;
         _aiOrchestrationService = aiOrchestrationService;
         _confidencePolicy = confidencePolicy;
     }
@@ -49,6 +52,13 @@ public class ProcessExpenseInputCommandHandler
             expenseInput.SetNormalizedContent(command.RawContent);
             await _expenseInputRepository.UpdateAsync(expenseInput, cancellationToken);
 
+            var userAccounts = await _accountRepository.GetByUserIdAsync(command.UserId, cancellationToken);
+            var accountMap = userAccounts.ToDictionary(
+                a => a.Name,
+                a => a.Id,
+                StringComparer.OrdinalIgnoreCase);
+            var availableAccountNames = accountMap.Keys.ToList();
+
             AIProposalResponseDto aiResponse;
             try
             {
@@ -56,6 +66,7 @@ public class ProcessExpenseInputCommandHandler
                     command.UserId,
                     command.InputType,
                     expenseInput.NormalizedContent!,
+                    availableAccountNames,
                     cancellationToken);
             }
             catch (Exception ex)
@@ -77,21 +88,38 @@ public class ProcessExpenseInputCommandHandler
             {
                 try
                 {
-                    if (!Enum.TryParse<Currency>(proposal.Currency, true, out var currency))
+                    var currency = Currency.UYU;
+                    if (!Enum.TryParse<Currency>(proposal.Currency, true, out var parsedCurrency))
                     {
-                        continue;
+                        currency = Currency.UYU;
+                    }
+                    else
+                    {
+                        currency = parsedCurrency;
                     }
 
-                    if (!Enum.TryParse<ExpenseType>(proposal.ExpenseType, true, out var expenseType))
+                    var expenseType = ExpenseType.Sporadic;
+                    if (!Enum.TryParse<ExpenseType>(proposal.ExpenseType, true, out var parsedExpenseType))
                     {
-                        continue;
+                        expenseType = ExpenseType.Sporadic;
+                    }
+                    else
+                    {
+                        expenseType = parsedExpenseType;
+                    }
+
+                    Guid accountId = proposal.AccountId;
+                    if (!string.IsNullOrEmpty(proposal.SuggestedAccountName) &&
+                        accountMap.TryGetValue(proposal.SuggestedAccountName, out var matchedAccountId))
+                    {
+                        accountId = matchedAccountId;
                     }
 
                     var money = new Money(proposal.Amount, currency);
                     var confidenceScore = new ConfidenceScore(proposal.Confidence);
                     var expense = Expense.CreateFromAI(
                         command.UserId,
-                        proposal.AccountId,
+                        accountId,
                         money,
                         proposal.Description,
                         expenseType,
