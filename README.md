@@ -2,8 +2,8 @@
 
 > Personal expense tracking with AI-powered automation
 
-[![Status](https://img.shields.io/badge/status-pre--development-orange)]()
-[![Phase](https://img.shields.io/badge/phase-workflow%20setup-blue)]()
+[![Status](https://img.shields.io/badge/status-active%20development-green)]()
+[![Phase](https://img.shields.io/badge/phase-mobile%20foundation-blue)]()
 
 ---
 
@@ -26,19 +26,18 @@ The system is architected as a **monorepo** with clear separation of concerns:
 
 ### Components
 
-| Component | Technology | Responsibility |
-|-----------|-----------|----------------|
-| **Backend** | .NET 8+ | Domain logic, state management, persistence, orchestration, REST API |
-| **AI Service** | Python | Input processing (OCR, NLP), expense proposals, confidence scoring |
-| **Mobile App** | Android | Thin client for user interaction, displays backend state |
+| Component | Technology | Responsibility | Status |
+|-----------|-----------|----------------|--------|
+| **Backend** | .NET 9 | Domain logic, state, persistence, REST API | ✅ 100% |
+| **AI Service** | Python (FastAPI) | Input processing, LLM orchestration, scoring | ✅ 100% |
+| **Mobile App** | Android (Kotlin) | Thin client for user interaction | 🔄 Starting |
 
 ### Key Characteristics
 
 - **Backend as Single Source of Truth** - All domain rules and state transitions enforced server-side
-- **Asynchronous AI Processing** - Heavy workloads (OCR) handled via background jobs
-- **Replaceable AI Layer** - No vendor lock-in, AI services are stateless and advisory only
-- **RESTful API** - Clean HTTP interface for synchronous operations
-
+- **Context-Aware AI** - AI suggestions utilize user-specific data (e.g., Account names) for better accuracy
+- **Deterministic Scoring** - Confidence is calculated based on data completeness, not LLM guesses
+- **Secure Integration** - Service-to-service authentication and user-scoped data isolation
 ---
 
 ## 📂 Repository Structure
