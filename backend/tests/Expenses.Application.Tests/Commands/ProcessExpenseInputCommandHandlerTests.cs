@@ -326,4 +326,63 @@ public class ProcessExpenseInputCommandHandlerTests
         Assert.Equal("UYU", capturedExpense.Amount.Currency.ToString());
         _expenseRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Expense>(), It.IsAny<CancellationToken>()), Times.Once);
     }
+
+    [Fact]
+    public async Task Handle_ValidInput_WithMatchingAccountSuggestion_ShouldLinkToCorrectAccountId()
+    {
+        var userId = Guid.NewGuid();
+        var targetAccountId = Guid.NewGuid();
+        var expenseGroupId = Guid.NewGuid();
+        var command = new ProcessExpenseInputCommand
+        {
+            UserId = userId,
+            InputType = "TEXT",
+            RawContent = "Bought milk and bread 450"
+        };
+
+        var groceriesAccount = Domain.Aggregates.Account.Account.Create(userId, "Groceries", expenseGroupId);
+        typeof(Domain.Aggregates.Account.Account)
+            .GetProperty("Id")!
+            .SetValue(groceriesAccount, targetAccountId);
+
+        _accountRepositoryMock
+            .Setup(x => x.GetByUserIdAsync(userId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new List<Domain.Aggregates.Account.Account> { groceriesAccount });
+
+        var aiResponse = new AIProposalResponseDto
+        {
+            Proposals = new List<ExpenseProposalDto>
+            {
+                new ExpenseProposalDto
+                {
+                    AccountId = Guid.NewGuid(),
+                    Amount = 450.00m,
+                    Currency = "UYU",
+                    Description = "Milk and bread",
+                    ExpenseType = "SPORADIC",
+                    PurchaseDate = DateTime.UtcNow,
+                    Confidence = 0.90,
+                    SuggestedAccountName = "Groceries"
+                }
+            },
+            OverallConfidence = 0.90
+        };
+
+        _aiServiceMock
+            .Setup(x => x.ProcessInputAsync(userId, "TEXT", It.IsAny<string>(), It.IsAny<List<string>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(aiResponse);
+
+        Expense? capturedExpense = null;
+        _expenseRepositoryMock
+            .Setup(x => x.AddAsync(It.IsAny<Expense>(), It.IsAny<CancellationToken>()))
+            .Callback<Expense, CancellationToken>((exp, ct) => capturedExpense = exp)
+            .ReturnsAsync((Expense exp, CancellationToken ct) => exp);
+
+        var result = await _handler.HandleAsync(command);
+
+        Assert.True(result.Success);
+        _expenseRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Expense>(), It.IsAny<CancellationToken>()), Times.Once);
+        Assert.NotNull(capturedExpense);
+        Assert.Equal(targetAccountId, capturedExpense.AccountId);
+    }
 }
