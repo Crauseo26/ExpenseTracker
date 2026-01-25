@@ -1,171 +1,69 @@
 # Agent Responsibilities & Boundaries
 
 ## Purpose
-This document defines **clear responsibilities, boundaries, and inputs/outputs** for each AI agent involved in the development process.
+This document serves as the **directory of specialized agents** available for the project. It defines the high-level responsibility of each agent and points to their detailed definition file.
 
-It ensures:
-- parallel work without conflicts
-- no duplicated ownership
-- no architectural drift
-
-Agents must strictly follow the specifications in `/specs` and **must not invent requirements**.
+The Lead Agent uses this list to delegate tasks.
 
 ---
 
-## Global Rules for All Agents
+## 1. Backend Agents (See `agents/backend/`)
 
-- Specs are the **single source of truth**
-- If a spec is unclear or contradictory, the agent must **stop and ask**
-- Agents may propose improvements but must not apply them without approval
-- No agent may override domain rules
+### Backend-Domain-Agent
+- **Role:** Domain Modeler (DDD)
+- **Focus:** Entities, Value Objects, Domain Services, Business Rules.
+- **Definition:** `agents/backend/backend_domain_agent.md`
 
----
+### Backend-Application-Agent
+- **Role:** Use Case Implementer (CQRS)
+- **Focus:** Command/Query Handlers, DTOs, Orchestration logic.
+- **Definition:** `agents/backend/backend_application_agent.md`
 
-## Lead / Coordinator Agent
+### Backend-Infrastructure-Agent
+- **Role:** Infrastructure & Persistence
+- **Focus:** EF Core, Repositories, External Service Clients (AI Client), Migrations.
+- **Definition:** `agents/backend/backend_infrastructure_agent.md`
 
-### Responsibility
-- Orchestrates the work of all other agents
-- Ensures consistency across outputs
-- Validates that implementations follow specs
-
-### Reads
-- All documents in `/specs`
-
-### Writes
-- Task breakdowns
-- Integration notes
-
-### Must NOT
-- Write production code directly
-- Make architectural decisions
+### Backend-API-Agent
+- **Role:** API Expositor
+- **Focus:** Controllers, Endpoints, Authentication (JWT), Swagger.
+- **Definition:** `agents/backend/backend_api_agent.md`
 
 ---
 
-## Backend Agent (.NET)
+## 2. AI Services Agents (See `agents/ai_service/`)
 
-### Responsibility
-- Implement backend API and domain logic
-- Enforce domain rules and lifecycle
-- Handle authentication and authorization
-
-### Reads
-- 01_system_responsibilities.md
-- 02_constraints.md
-- 03_domain_model.md
-- 04_architecture.md
-- 06_api-and-contracts.md
-- 08_expense-lifecycle.md
-- 09_execution-workflows.md
-
-### Writes
-- Controllers
-- Domain entities
-- Application services
-- Validation logic
-
-### Must NOT
-- Make UI decisions
-- Delegate domain decisions to AI services
+### AI-Python-Agent
+- **Role:** AI Service Developer (Python/FastAPI)
+- **Focus:** LLM Orchestration, Prompt Engineering, Deterministic Scoring, FastAPI implementation.
+- **Definition:** `agents/ai_service/ai_python_agent.md`
 
 ---
 
-## Persistence Agent (Database / ORM)
+## 3. Mobile Agents (See `agents/mobile/`)
 
-### Responsibility
-- Define relational schema
-- Implement ORM mappings and migrations
-- Ensure data integrity
-
-### Reads
-- 03_domain_model.md
-- 05_persistence_model.md
-- 08_expense-lifecycle.md
-
-### Writes
-- Database schema
-- Migration scripts
-- ORM configurations
-
-### Must NOT
-- Embed business logic in the database
-- Create denormalized reporting tables in MVP
+### Mobile-Flutter-Agent
+- **Role:** Mobile Developer (Flutter)
+- **Focus:** UI/UX implementation, State Management (Riverpod), API Consumption (Dio), Local Storage.
+- **Definition:** `agents/mobile/mobile_flutter_agent.md`
 
 ---
 
-## AI Pipeline Agent
+## 4. Cross-Cutting
 
-### Responsibility
-- Implement AI Orchestration Service
-- Normalize inputs
-- Route inputs to appropriate AI models
-- Produce structured proposals with confidence scores
-
-### Reads
-- 02_constraints.md
-- 04_architecture.md
-- 07_ai_pipeline.md
-- 09_execution-workflows.md
-
-### Writes
-- AI service code
-- Model adapters
-- Normalization logic
-
-### Must NOT
-- Create or modify domain entities
-- Decide expense state
+### Lead Agent (Orchestrator)
+- **Role:** Project Manager & Architect
+- **Focus:** Coordination, Spec Enforcement, Git Workflow, Execution Plan updates.
+- **Definition:** `agents/lead_agent.md`
 
 ---
 
-## Mobile Agent
+## Delegation Rules
 
-### Responsibility
-- Implement mobile application UI
-- Handle user input and display state
-- Communicate with backend API
+1.  **Backend Logic:** Delegate to the specific layer agent (Domain vs Application vs Infrastructure).
+2.  **Database/Migrations:** Delegate to **Backend-Infrastructure-Agent**.
+3.  **API Endpoints:** Delegate to **Backend-API-Agent**.
+4.  **AI Logic (Python):** Delegate to **AI-Python-Agent**.
+5.  **Mobile App:** Delegate to **Mobile-Flutter-Agent**.
 
-### Reads
-- 01_system_responsibilities.md
-- 02_constraints.md
-- 04_architecture.md
-- 06_api-and-contracts.md
-- 09_execution-workflows.md
-
-### Writes
-- Mobile UI code
-- API clients
-
-### Must NOT
-- Implement domain rules
-- Persist authoritative state locally
-
----
-
-## QA / Validation Agent
-
-### Responsibility
-- Validate workflows against specs
-- Identify inconsistencies or missing rules
-
-### Reads
-- All documents in `/specs`
-
-### Writes
-- Test scenarios
-- Validation checklists
-
-### Must NOT
-- Change specs or implementation
-
----
-
-## Summary
-
-This responsibility map:
-
-- enables safe parallel development
-- reduces ambiguity for agents
-- enforces strong ownership boundaries
-
-All agents must comply with this document as a **hard constraint**.
-
+If a task spans multiple layers, the Lead Agent must break it down into subtasks and assign them sequentially or in parallel.
