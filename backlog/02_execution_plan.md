@@ -80,7 +80,7 @@ None
 
 **Tasks:**
 - [x] F11-T01: Initialize Flutter Project (Clean Architecture)
-- [ ] F11-T02: Implement Auth & JWT Storage (Dio + SecureStorage)
+- [x] F11-T02: Implement Auth & JWT Storage (Dio + SecureStorage)
 - [ ] F11-T03: Implement Camera/Gallery Capture
 
 **Agent Assignments:**
@@ -199,3 +199,8 @@ None
 - Added dependencies: flutter_riverpod, go_router, dio, etc.
 - Configured Android package: com.financia.app
 - Branch pushed: feature/F11-T01-flutter-init
+
+### 2026-01-25 (Afternoon)
+- F11-T02 completed: Implemented AuthRepository, Dio client with JWT interceptor, and SecureStorage service.
+- Created models for AuthResponse and UserCredentials.
+- Set up Riverpod providers for all core auth components.
