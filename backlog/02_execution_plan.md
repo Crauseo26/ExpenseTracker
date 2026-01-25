@@ -74,17 +74,17 @@ None
 ## Pending Tasks (Priority Order) 
 
 
-### Feature 11 — Mobile App Foundation (Android)
+### Feature 11 — Mobile App Foundation (Flutter)
 
-**Goal**: Initialize the Android project and core structure.
+**Goal**: Initialize the Android project using Flutter and core structure.
 
 **Tasks:**
-- [ ] F11-T01: Initialize Android Project (Kotlin/Compose)
-- [ ] F11-T02: Implement Auth & JWT Storage
+- [x] F11-T01: Initialize Flutter Project (Clean Architecture)
+- [ ] F11-T02: Implement Auth & JWT Storage (Dio + SecureStorage)
 - [ ] F11-T03: Implement Camera/Gallery Capture
 
 **Agent Assignments:**
-- Mobile-Agent (New)
+- Mobile-Flutter-Agent
 
 ---
 
@@ -193,3 +193,9 @@ None
 - Implemented placeholder `/process-text` endpoint with full request/response models
 - Service verified to start successfully on port 5000
 - Branch pushed: feature/F09-T01-ai-service-setup
+
+### 2026-01-25 (Morning)
+- F11-T01 completed: Initialized Flutter project with Clean Architecture
+- Added dependencies: flutter_riverpod, go_router, dio, etc.
+- Configured Android package: com.financia.app
+- Branch pushed: feature/F11-T01-flutter-init
