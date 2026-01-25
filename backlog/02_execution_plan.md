@@ -81,7 +81,7 @@ None
 **Tasks:**
 - [x] F11-T01: Initialize Flutter Project (Clean Architecture)
 - [x] F11-T02: Implement Auth & JWT Storage (Dio + SecureStorage)
-- [ ] F11-T03: Implement Camera/Gallery Capture
+- [x] F11-T03: Implement Camera/Gallery Capture
 
 **Agent Assignments:**
 - Mobile-Flutter-Agent
@@ -204,3 +204,9 @@ None
 - F11-T02 completed: Implemented AuthRepository, Dio client with JWT interceptor, and SecureStorage service.
 - Created models for AuthResponse and UserCredentials.
 - Set up Riverpod providers for all core auth components.
+
+### 2026-01-25 (Evening)
+- F11-T03 completed: Integrated image_picker for camera and gallery access.
+- Created ImagePickerService with Riverpod provider.
+- Added test UI in HomeScreen to verify image picking functionality.
+- Branch pushed: feature/F11-T03-camera-capture
